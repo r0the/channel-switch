@@ -48,9 +48,11 @@ wieder auf Sendung geschaltet, indem ein 100 ms-Puls auf dem Ausgang *On-Air* ge
 | Rising  | L       | H       | *     | Puls   | L     | Off-Air-Anfrage           |
 | *       | Rising  | L       | Set L | L      | L     | Regie ein                 |
 | *       | Rising  | H       | Set H | Puls   | L     | Off-Air-Anfrage für Regie |
-| *       | Falling | L       | Is L  | L      | L     | Regie aus                 |
-| *       | Falling | L       | Is H  | Puls   | L     | On-Air-Anfrage nach Regie |
+| *       | Falling | L       | L     | L      | L     | Regie aus                 |
+| *       | Falling | L       | H     | Puls   | L     | On-Air-Anfrage nach Regie |
 | *       | Falling | H       | *     | L      | L     | Regie fehlgeschlagen      |
+
+## Betriebsmodus Konfiguration
 
 # Betriebsmodus Übersetzung
 
@@ -90,5 +92,5 @@ Eingänge:
 | 18  | IN  | Tally 1             |
 | 19  | IN  | Tally 2             |
 | 20  | IN  | Programming Mode    |
-| 22  | IN  | Switch 2            |
-| 23  | IN  | Switch 1            |
+| 22  | IN  | Button 2            |
+| 23  | IN  | Button 1            |

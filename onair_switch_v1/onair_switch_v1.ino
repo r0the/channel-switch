@@ -1,19 +1,34 @@
-#include <monogfx.h>
-#include <sb6432.h>
+/*
+ * Copyright (C) 2017 by Stefan Rothe
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
-#define CS_DELAY 1
-#define PULSE_OUT_MS 100
+#include "program.h"
 
-#define PIN_DATA 10
-#define PIN_CLOCK 11
-#define PIN_CS 12
-#define PIN_DIP_SWITCH_1 7
-#define PIN_DIP_SWITCH_2 6
-#define PIN_SWITCH_1 9
-#define PIN_SWITCH_2 8
-#define PIN_OUT_1 4
-#define PIN_OUT_2 5
+Program* program(NULL);
 
+void setup() {
+    program = new Program();
+}
+
+void loop() {
+    program->loop();
+}
+
+
+/*
 SB6432 lcd1(PIN_CLOCK, PIN_DATA);
 SB6432 lcd2(PIN_CLOCK, PIN_DATA);
 uint8_t switch1 = HIGH;
@@ -186,4 +201,5 @@ void loop() {
     lastSwitch1 = switch1;
     lastSwitch2 = switch2;
 }
+*/
 
