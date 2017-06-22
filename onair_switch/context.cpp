@@ -15,17 +15,31 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "program.h"
+#include <EEPROM.h>
+#include "context.h"
 #include "config.h"
+#include "onair.h"
+#include "prog.h"
+#include "translate.h"
 
-Program::Program() :
+#define MODE_ADDRESS 1
+
+Context::Context() :
     _button1(false),
     _button2(false),
+    _channel1(false),
+    _channel2(false),
     _display1(PIN_CLK, PIN_DATA),
+    _display1Dirty(false),
     _display2(PIN_CLK, PIN_DATA),
+    _display2Dirty(false),
     _lastButton1(false),
     _lastButton2(false),
+    _mode(NULL),
+    _modeId(0),
     _mutePulseEnd(0),
+    _now(0),
+    _programmingModeStart(0),
     _toggle1PulseEnd(0),
     _toggle2PulseEnd(0)
 {
@@ -50,19 +64,17 @@ Program::Program() :
     digitalWrite(PIN_DIR, LOW);
 
     // init display 1
-    SB6432& display1 = selectDisplay1();
-    display1.begin();
-    display1.setFontScale(2);
+    selectDisplay1();
+    _display1.begin();
 
     // init display 2
-    SB6432& display2 = selectDisplay2();
-    display2.begin();
-    display2.setFontScale(2);
+    selectDisplay2();
+    _display2.begin();
 
-    _mode = new OnAir(*this);
+    setMode(EEPROM.read(MODE_ADDRESS));
 }
 
-void Program::loop() {
+void Context::loop() {
     // check for end of pulse
     _now = millis();
     if (_toggle1PulseEnd <= _now) {
@@ -83,49 +95,99 @@ void Program::loop() {
     _channel1 = digitalRead(PIN_TY1) == HIGH;
     _channel2 = digitalRead(PIN_TY2) == HIGH;
 
+    if (!_button1 || !_button2) {
+        _programmingModeStart = _now + PROGRAMMING_MODE_TIMEOUT;
+    }
+
+    if (_programmingModeStart <= _now) {
+        initMode(new Prog);
+    }
+
     // program logic
     _mode->loop(*this);
 
     // save last button states for edge detection
     _lastButton1 = _button1;
     _lastButton2 = _button2;
+
+    if (_display1Dirty) {
+        selectDisplay1();
+        _mode->updateDisplay1(_display1);
+        _display1.update();
+        _display1Dirty = false;
+    }
+
+    if (_display2Dirty) {
+        selectDisplay2();
+        _mode->updateDisplay2(_display2);
+        _display2.update();
+        _display2Dirty = false;
+    }
 }
 
-SB6432& Program::selectDisplay1() {
-    delay(CS_DELAY);
-    digitalWrite(PIN_CS, LOW);
-    delay(CS_DELAY);
-    return _display1;
+void Context::setMode(uint8_t modeId) {
+    if (modeId >= MODE_COUNT) {
+        modeId = MODE_ON_AIR;
+    }
+
+    _modeId = modeId;
+    EEPROM.update(MODE_ADDRESS, _modeId);
+    switch (modeId) {
+        case MODE_ON_AIR:
+            initMode(new OnAir);
+            break;
+        case MODE_TRANSLATE:
+            initMode(new Translate);
+            break;
+    }
 }
 
-SB6432& Program::selectDisplay2() {
-    delay(CS_DELAY);
-    digitalWrite(PIN_CS, HIGH);
-    delay(CS_DELAY);
-    return _display2;
+uint8_t Context::mode() const {
+    return _modeId;
 }
 
-void Program::toggleChannel1() {
+void Context::toggleChannel1() {
     _toggle1PulseEnd = _now + PULSE_LENGTH_MS;
     digitalWrite(PIN_RQ1, HIGH);
 }
 
-void Program::toggleChannel2() {
+void Context::toggleChannel2() {
     _toggle2PulseEnd = _now + PULSE_LENGTH_MS;
     digitalWrite(PIN_RQ2, HIGH);
 }
 
-void Program::sendMutePulse() {
+void Context::sendMutePulse() {
     _mutePulseEnd = _now + PULSE_LENGTH_MS;
     digitalWrite(PIN_MUTE, HIGH);
 }
 
-void Program::setDirection(bool active) {
-    if (active) {
-        digitalWrite(PIN_DIR, HIGH);
-    }
-    else {
-        digitalWrite(PIN_DIR, LOW);
-    }
+void Context::setDirection(bool active) {
+    digitalWrite(PIN_DIR, active ? HIGH : LOW);
+}
+
+void Context::selectDisplay1() {
+    delay(CS_DELAY);
+    digitalWrite(PIN_CS, LOW);
+    delay(CS_DELAY);
+}
+
+void Context::selectDisplay2() {
+    delay(CS_DELAY);
+    digitalWrite(PIN_CS, HIGH);
+    delay(CS_DELAY);
+}
+
+void Context::initMode(Mode* mode) {
+    delete _mode;
+    _mode = mode;
+    _mode->init(*this);
+    selectDisplay1();
+    _mode->initDisplay1(_display1);
+    _mode->updateDisplay1(_display1);
+    _display1.update();
+    selectDisplay2();
+    _mode->initDisplay2(_display2);
+    _mode->updateDisplay2(_display2);
+    _display2.update();
 }
 

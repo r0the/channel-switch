@@ -15,24 +15,24 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "onair.h"
+#include "translate.h"
 #include "context.h"
 
-OnAir::OnAir() :
+Translate::Translate() :
     _displayOnAir(false),
     _displayDirection(false)
 {
 }
 
-void OnAir::initDisplay1(SB6432& display) {
+void Translate::initDisplay1(SB6432& display) {
     display.setFontScale(2);
 }
 
-void OnAir::initDisplay2(SB6432& display) {
+void Translate::initDisplay2(SB6432& display) {
     display.setFontScale(2);
 }
 
-void OnAir::loop(Context& context) {
+void Translate::loop(Context& context) {
     // update display 1 to reflect state of channel 1
     if (_displayOnAir != context.channel1()) {
         _displayOnAir = context.channel1();
@@ -71,31 +71,31 @@ void OnAir::loop(Context& context) {
     }
 }
 
-void OnAir::updateDisplay1(SB6432& display) {
+void Translate::updateDisplay1(SB6432& display) {
     display.fill(MODE_CLEAR);
     if (_displayOnAir) {
         display.fillRect(0, 0, 63, 5, MODE_SET);
         display.fillRect(0, 26, 63, 5, MODE_SET);
-        display.write(4, 23, "ON AIR");
-        display.setBacklightColor(255, 0, 0);
+        display.write(4, 23, "XXX");
+        display.setBacklightColor(0, 0, 0);
     }
     else {
         display.setBacklightColor(50, 0, 0);
-        display.write(1, 23, "OFFAIR");
+        display.write(1, 23, "YYY");
     }
 }
 
-void OnAir::updateDisplay2(SB6432& display) {
+void Translate::updateDisplay2(SB6432& display) {
     display.fill(MODE_CLEAR);
     if (_displayDirection) {
         display.fillRect(0, 0, 63, 5, MODE_SET);
         display.fillRect(0, 26, 63, 5, MODE_SET);
-        display.setBacklightColor(0, 0, 255);
+        display.setBacklightColor(0, 0, 0);
     }
     else {
         display.setBacklightColor(0, 0, 50);
     }
 
-    display.write(4, 23, "REGIE");
+    display.write(4, 23, "BLUP");
 }
 

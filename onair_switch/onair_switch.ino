@@ -15,16 +15,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "program.h"
+#include "context.h"
 
-Program* program(NULL);
+Context* context(NULL);
 
 void setup() {
-    program = new Program();
+    context = new Context();
 }
 
 void loop() {
-    program->loop();
+    context->loop();
 }
 
 

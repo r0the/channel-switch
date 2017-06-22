@@ -15,42 +15,66 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef PROGRAM_H
-#define PROGRAM_H
+#ifndef CONTEXT_H
+#define CONTEXT_H
 
 #include <Arduino.h>
 #include <sb6432.h>
-#include "onair.h"
 
-class Program {
+#define MODE_ON_AIR 0
+#define MODE_TRANSLATE 1
+#define MODE_COUNT 2
+
+class Context;
+
+class Mode {
 public:
-    Program();
+    virtual void init(Context& context) { }
+    virtual void initDisplay1(SB6432& display) = 0;
+    virtual void initDisplay2(SB6432& display) = 0;
+    virtual void loop(Context& context) = 0;
+    virtual void updateDisplay1(SB6432& display) = 0;
+    virtual void updateDisplay2(SB6432& display) = 0;
+};
+
+class Context {
+public:
+    Context();
     inline bool button1Down() const { return _button1 && !_lastButton1; }
     inline bool button2() const { return _button2; }
     inline bool button2Down() const { return _button2 && !_lastButton2; }
     inline bool channel1() const { return _channel1; }
     inline bool channel2() const { return _channel2; }
+    inline bool display1Dirty() { _display1Dirty = true; }
+    inline bool display2Dirty() { _display2Dirty = true; }
     void loop();
-    SB6432& selectDisplay1();
-    SB6432& selectDisplay2();
-    void toggleChannel1();
-    void toggleChannel2();
+    void setMode(uint8_t modeId);
+    uint8_t mode() const;
     void sendMutePulse();
     void setDirection(bool active);
+    void toggleChannel1();
+    void toggleChannel2();
 private:
     bool _button1;
     bool _button2;
     bool _channel1;
     bool _channel2;
     SB6432 _display1;
+    bool _display1Dirty;
     SB6432 _display2;
+    bool _display2Dirty;
     bool _lastButton1;
     bool _lastButton2;
-    OnAir* _mode;
+    Mode* _mode;
+    uint8_t _modeId;
     unsigned long _mutePulseEnd;
     unsigned long _now;
+    unsigned long _programmingModeStart;
     unsigned long _toggle1PulseEnd;
     unsigned long _toggle2PulseEnd;
+    void selectDisplay1();
+    void selectDisplay2();
+    void initMode(Mode* mode);
 };
 
 #endif

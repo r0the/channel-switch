@@ -15,14 +15,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ONAIR_H
-#define ONAIR_H
+#ifndef TRANSLATE_H
+#define TRANSLATE_H
 
 #include "context.h"
 
-class OnAir : public Mode {
+class Translate : public Mode {
 public:
-    OnAir();
+    Translate();
     virtual void initDisplay1(SB6432& display);
     virtual void initDisplay2(SB6432& display);
     virtual void loop(Context& context);

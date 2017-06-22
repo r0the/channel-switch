@@ -15,23 +15,25 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ONAIR_H
-#define ONAIR_H
+#ifndef PROG_H
+#define PROG_H
 
 #include "context.h"
 
-class OnAir : public Mode {
+class Prog : public Mode {
 public:
-    OnAir();
+    Prog();
+    virtual void init(Context& context);
     virtual void initDisplay1(SB6432& display);
     virtual void initDisplay2(SB6432& display);
     virtual void loop(Context& context);
     virtual void updateDisplay1(SB6432& display);
     virtual void updateDisplay2(SB6432& display);
 private:
-    bool _displayOnAir;
-    bool _displayDirection;
-    bool _onAirBeforeDirection;
+    uint8_t _language1;
+    uint8_t _language2;
+    uint8_t _menuItem;
+    uint8_t _modeId;
 };
 
 #endif

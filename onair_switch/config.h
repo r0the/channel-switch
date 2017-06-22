@@ -36,6 +36,9 @@
 
 #define CS_DELAY 1
 #define PULSE_LENGTH_MS 100
+#define PROGRAMMING_MODE_TIMEOUT 5000
+
+static const char* FIRMWARE_VERSION = "Version 0.2";
 
 #endif
 
