@@ -15,27 +15,23 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef CONFIG_H
-#define CONFIG_H
+#ifndef ONAIR_H
+#define ONAIR_H
 
-// ----------------------------------------------------------------------------
-// pin configuration
-// ----------------------------------------------------------------------------
+class Program;
 
-#define PIN_LANG_1         2
-#define PIN_LANG_2         3
-#define PIN_MUTE           5
-#define PIN_REGIE          6
-#define PIN_DISPLAY_DATA  14
-#define PIN_DISPLAY_CS    15
-#define PIN_DISPLAY_CLOCK 16
-#define PIN_TALLY_1       18
-#define PIN_TALLY_2       19
-#define PIN_BUTTON_2      22
-#define PIN_BUTTON_1      23
+class OnAir {
+public:
+    OnAir(Program& context);
+    void loop(Program& context);
+private:
+    bool _displayOnAir;
+    bool _displayDirection;
+    bool _onAirBeforeDirection;
 
-#define CS_DELAY 1
-#define PULSE_LENGTH_MS 100
+    void updateDisplay1(Program& context);
+    void updateDisplay2(Program& context);
+};
 
 #endif
 

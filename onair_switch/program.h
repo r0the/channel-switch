@@ -25,32 +25,32 @@
 class Program {
 public:
     Program();
-    inline bool button1Pressed() const { return _button1 && !_lastButton1; }
-    inline SB6432& display() const { return *_display; }
+    inline bool button1Down() const { return _button1 && !_lastButton1; }
+    inline bool button2() const { return _button2; }
+    inline bool button2Down() const { return _button2 && !_lastButton2; }
+    inline bool channel1() const { return _channel1; }
+    inline bool channel2() const { return _channel2; }
     void loop();
-    void selectDisplay1();
-    void selectDisplay2();
-    void sendLang1Pulse();
-    void sendLang2Pulse();
+    SB6432& selectDisplay1();
+    SB6432& selectDisplay2();
+    void toggleChannel1();
+    void toggleChannel2();
     void sendMutePulse();
-    inline void sendOnAirPulse() { sendLang1Pulse(); }
-    inline bool tally1() const { return _tally1; }
-    inline bool tally2() const { return _tally2; }
+    void setDirection(bool active);
 private:
     bool _button1;
     bool _button2;
+    bool _channel1;
+    bool _channel2;
     SB6432 _display1;
     SB6432 _display2;
-    SB6432* _display;
-    unsigned long _lang1PulseEnd;
-    unsigned long _lang2PulseEnd;
     bool _lastButton1;
     bool _lastButton2;
     OnAir* _mode;
     unsigned long _mutePulseEnd;
     unsigned long _now;
-    bool _tally1;
-    bool _tally2;
+    unsigned long _toggle1PulseEnd;
+    unsigned long _toggle2PulseEnd;
 };
 
 #endif

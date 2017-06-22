@@ -15,20 +15,27 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ONAIR_H
-#define ONAIR_H
+#ifndef CONFIG_H
+#define CONFIG_H
 
-class Program;
+// ----------------------------------------------------------------------------
+// pin configuration
+// ----------------------------------------------------------------------------
 
-class OnAir {
-public:
-    OnAir(Program& context);
-    void loop(Program& context);
-private:
-    bool _displayOnAir;
+#define PIN_RQ1    2
+#define PIN_RQ2    3
+#define PIN_MUTE   5
+#define PIN_DIR    6
+#define PIN_DATA  14
+#define PIN_CS    15
+#define PIN_CLK   16
+#define PIN_TY1   18
+#define PIN_TY2   19
+#define PIN_BTN2  22
+#define PIN_BTN1  23
 
-    void updateDisplay1(Program& context);
-};
+#define CS_DELAY 1
+#define PULSE_LENGTH_MS 100
 
 #endif
 
