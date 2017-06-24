@@ -26,10 +26,7 @@
 #define MENU_EXIT 3
 
 ConfigMode::ConfigMode() :
-    _language1(CONFIG.language1()),
-    _language2(CONFIG.language2()),
-    _menuItem(0),
-    _mode(CONFIG.mode())
+    _menuItem(0)
 {
 }
 
@@ -54,16 +51,15 @@ void ConfigMode::loop(Context& context) {
         context.display2Dirty();
         switch (_menuItem) {
             case MENU_MODE:
-                _mode = (_mode + 1) % MODE_COUNT;
+                CONFIG.nextMode();
                 break;
             case MENU_LANGUAGE_1:
-                _language1 = (_language1 + 1) % LANGUAGE_COUNT;
+                CONFIG.nextLanguage1();
                 break;
             case MENU_LANGUAGE_2:
-                _language2 = (_language2 + 1) % LANGUAGE_COUNT;
+                CONFIG.nextLanguage2();
                 break;
             case MENU_EXIT:
-                CONFIG.setMode(_mode);
                 CONFIG.save();
                 context.initMode();
                 break;
@@ -95,13 +91,13 @@ void ConfigMode::updateDisplay2(SB6432& display) {
     display.write(0, 8, FIRMWARE_VERSION);
     switch (_menuItem) {
         case MENU_MODE:
-            display.write(0, 31, MODE_NAME[_mode]);
+            display.write(0, 31, MODE_NAME[CONFIG.mode()]);
             break;
         case MENU_LANGUAGE_1:
-            display.write(0, 31, LANGUAGE_NAME[_language1]);
+            display.write(0, 31, LANGUAGE_NAME[CONFIG.language1()]);
             break;
         case MENU_LANGUAGE_2:
-            display.write(0, 31, LANGUAGE_NAME[_language2]);
+            display.write(0, 31, LANGUAGE_NAME[CONFIG.language2()]);
             break;
         case MENU_EXIT:
             display.write(0, 31, "Confirm");

@@ -17,9 +17,12 @@
 
 #include "translate_mode.h"
 
-TranslateMode::TranslateMode() :
-    _displayOnAir(false),
-    _displayDirection(false)
+#define STATE_ERROR     0
+#define STATE_LANGUAGE1 1
+#define STATE_LANGUAGE2 2
+#define STATE_MUTE      3
+
+TranslateMode::TranslateMode()
 {
 }
 
@@ -32,47 +35,41 @@ void TranslateMode::initDisplay2(SB6432& display) {
 }
 
 void TranslateMode::loop(Context& context) {
-    // update display 1 to reflect state of channel 1
-    if (_displayOnAir != context.channel1()) {
-        _displayOnAir = context.channel1();
+    // display error if both channels are open
+    uint8_t lastState = _state;
+    if (context.channel1() && context.channel2()) {
+        _state = STATE_ERROR;
+    }
+    else if (context.channel1()) {
+        _state = STATE_LANGUAGE1;
+    }
+    else if (context.channel2()) {
+        _state = STATE_LANGUAGE2;
+    }
+    else {
+        _state = STATE_MUTE;
+    }
+
+    if (lastState != _state) {
         context.display1Dirty();
     }
 
-    // activate direction, if button 2 is pressed and we are off-air
-    bool direction = context.button2() && !context.channel1();
-    context.setDirection(direction);
-    // update display 2
-    if (_displayDirection != direction) {
-        _displayDirection = direction;
-        context.display2Dirty();
-    }
-
-    // if button 1 has gone down, dispatch on-air/off-air request
+    // if button 1 has gone down, change language
     if (context.button1Down()) {
-        context.toggleChannel1();
+        switch (_state) {
+            case STATE_LANGUAGE1:
+            case STATE_LANGUAGE2:
+                context.toggleChannel1();
+                break;            
+        }
+            
     }
 
-    // if button 2 has gone down, try to activate direction mode
-    if (context.button2Down()) { 
-        _onAirBeforeDirection = context.channel1();
-        // if we are on-air, request to go off-air
-        if (_onAirBeforeDirection) {
-            context.toggleChannel1();
-        }
-    }
-
-    // if button 2 has been released and FLAG is still set, send on-air request
-    if (!context.button2()) {
-        if (_onAirBeforeDirection && !context.channel1()) {
-            context.toggleChannel1();
-            _onAirBeforeDirection = false;
-        }
-    }
 }
 
 void TranslateMode::updateDisplay1(SB6432& display) {
     display.fill(MODE_CLEAR);
-    if (_displayOnAir) {
+    if (true) {
         display.fillRect(0, 0, 63, 5, MODE_SET);
         display.fillRect(0, 26, 63, 5, MODE_SET);
         display.write(4, 23, "XXX");
@@ -86,7 +83,7 @@ void TranslateMode::updateDisplay1(SB6432& display) {
 
 void TranslateMode::updateDisplay2(SB6432& display) {
     display.fill(MODE_CLEAR);
-    if (_displayDirection) {
+    if (true) {
         display.fillRect(0, 0, 63, 5, MODE_SET);
         display.fillRect(0, 26, 63, 5, MODE_SET);
         display.setBacklightColor(0, 0, 0);

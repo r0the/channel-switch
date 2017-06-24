@@ -70,9 +70,9 @@ public:
     inline uint8_t mode() const { return _mode; }
     void load();
     void save();
-    void setLanguage1(uint8_t language1);
-    void setLanguage2(uint8_t language2);
-    void setMode(uint8_t mode);
+    void nextLanguage1();
+    void nextLanguage2();
+    void nextMode();
 private:
     uint8_t _language1;
     uint8_t _language2;

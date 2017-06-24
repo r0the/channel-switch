@@ -46,21 +46,15 @@ void Config::save() {
     EEPROM.update(MODE_ADDRESS, _mode);
 }
 
-void Config::setLanguage1(uint8_t language1) {
-    if (_language1 != language1) {
-        _language1 = language1;
-    }
+void Config::nextLanguage1() {
+    _language1 = (_language1 + 1) % LANGUAGE_COUNT;
 }
 
-void Config::setLanguage2(uint8_t language2) {
-    if (_language2 != language2) {
-        _language2 = language2;
-    }
+void Config::nextLanguage2() {
+    _language2 = (_language2 + 1) % LANGUAGE_COUNT;
 }
 
-void Config::setMode(uint8_t mode) {
-    if (_mode != mode) {
-        _mode = mode;
-    }
+void Config::nextMode() {
+    _mode = (_mode + 1) % MODE_COUNT;
 }
 
