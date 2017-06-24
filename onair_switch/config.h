@@ -18,6 +18,8 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
+#include <Arduino.h>
+
 // ----------------------------------------------------------------------------
 // pin configuration
 // ----------------------------------------------------------------------------
@@ -36,9 +38,48 @@
 
 #define CS_DELAY 1
 #define PULSE_LENGTH_MS 100
-#define PROGRAMMING_MODE_TIMEOUT 5000
+#define LONG_PRESS_MS 5000
 
 static const char* FIRMWARE_VERSION = "Version 0.2";
+
+// ----------------------------------------------------------------------------
+// configuration of modes
+// ----------------------------------------------------------------------------
+
+#define MODE_ON_AIR 0
+#define MODE_TRANSLATE 1
+#define MODE_COUNT 2
+extern const char* MODE_NAME[MODE_COUNT];
+
+// ----------------------------------------------------------------------------
+// configuration of languages for translation mode
+// ----------------------------------------------------------------------------
+
+#define LANGUAGE_COUNT 4
+extern const char* LANGUAGE_NAME[LANGUAGE_COUNT];
+
+// ----------------------------------------------------------------------------
+// programmable persistent configuration
+// ----------------------------------------------------------------------------
+
+class Config {
+public:
+    Config();
+    inline uint8_t language1() const { return _language1; }
+    inline uint8_t language2() const { return _language2; }
+    inline uint8_t mode() const { return _mode; }
+    void load();
+    void save();
+    void setLanguage1(uint8_t language1);
+    void setLanguage2(uint8_t language2);
+    void setMode(uint8_t mode);
+private:
+    uint8_t _language1;
+    uint8_t _language2;
+    uint8_t _mode;
+};
+
+extern Config CONFIG;
 
 #endif
 

@@ -15,15 +15,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef PROG_H
-#define PROG_H
+#ifndef CONFIG_MODE_H
+#define CONFIG_MODE_H
 
 #include "context.h"
 
-class Prog : public Mode {
+class ConfigMode : public Mode {
 public:
-    Prog();
-    virtual void init(Context& context);
+    ConfigMode();
     virtual void initDisplay1(SB6432& display);
     virtual void initDisplay2(SB6432& display);
     virtual void loop(Context& context);
@@ -33,7 +32,7 @@ private:
     uint8_t _language1;
     uint8_t _language2;
     uint8_t _menuItem;
-    uint8_t _modeId;
+    uint8_t _mode;
 };
 
 #endif

@@ -15,23 +15,27 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ONAIR_H
-#define ONAIR_H
+#ifndef BUTTONS_H
+#define BUTTONS_H
 
-#include "context.h"
-
-class OnAir : public Mode {
+class Buttons {
 public:
-    OnAir();
-    virtual void initDisplay1(SB6432& display);
-    virtual void initDisplay2(SB6432& display);
-    virtual void loop(Context& context);
-    virtual void updateDisplay1(SB6432& display);
-    virtual void updateDisplay2(SB6432& display);
+    void setup();
+    void loop();
+    inline bool button1() const { return _button1; }
+    inline bool button1Down() const { return _button1Down; }
+    inline bool button2() const { return _button2; }
+    inline bool button2Down() const { return _button2Down; }
+    inline bool longPress() const { return _longPress; }
 private:
-    bool _displayOnAir;
-    bool _displayDirection;
-    bool _onAirBeforeDirection;
+    bool _button1;
+    bool _button1Down;
+    bool _button2;
+    bool _button2Down;
+    bool _lastButton1;
+    bool _lastButton2;
+    bool _longPress;
+    unsigned long _longPressEnd;
 };
 
 #endif

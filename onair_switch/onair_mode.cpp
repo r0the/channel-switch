@@ -15,24 +15,23 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "onair.h"
-#include "context.h"
+#include "onair_mode.h"
 
-OnAir::OnAir() :
+OnAirMode::OnAirMode() :
     _displayOnAir(false),
     _displayDirection(false)
 {
 }
 
-void OnAir::initDisplay1(SB6432& display) {
+void OnAirMode::initDisplay1(SB6432& display) {
     display.setFontScale(2);
 }
 
-void OnAir::initDisplay2(SB6432& display) {
+void OnAirMode::initDisplay2(SB6432& display) {
     display.setFontScale(2);
 }
 
-void OnAir::loop(Context& context) {
+void OnAirMode::loop(Context& context) {
     // update display 1 to reflect state of channel 1
     if (_displayOnAir != context.channel1()) {
         _displayOnAir = context.channel1();
@@ -71,7 +70,7 @@ void OnAir::loop(Context& context) {
     }
 }
 
-void OnAir::updateDisplay1(SB6432& display) {
+void OnAirMode::updateDisplay1(SB6432& display) {
     display.fill(MODE_CLEAR);
     if (_displayOnAir) {
         display.fillRect(0, 0, 63, 5, MODE_SET);
@@ -85,7 +84,7 @@ void OnAir::updateDisplay1(SB6432& display) {
     }
 }
 
-void OnAir::updateDisplay2(SB6432& display) {
+void OnAirMode::updateDisplay2(SB6432& display) {
     display.fill(MODE_CLEAR);
     if (_displayDirection) {
         display.fillRect(0, 0, 63, 5, MODE_SET);

@@ -17,14 +17,14 @@
 
 #include "context.h"
 
-Context* context(NULL);
+Context context;
 
 void setup() {
-    context = new Context();
+    context.setup();
 }
 
 void loop() {
-    context->loop();
+    context.loop();
 }
 
 

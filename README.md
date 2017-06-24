@@ -81,5 +81,5 @@ Eingänge:
 | 18  | IN  | TY1  | Tally Channel 1     | Eingang Bestätigung Kanal 1 offen |
 | 19  | IN  | TY2  | Tally Channel 2     | Eingang Bestätigung Kanal 2 offen |
 | 20  | IN  | PRG  | Programming Mode    | Eingang Programmiermodus          |
-| 22  | IN  | BTN1 | Button 2            | Eingang rechte Taste              |
-| 23  | IN  | BTN2 | Button 1            | Eingang linke Taste               |
+| 22  | IN  | BTN2 | Button 2            | Eingang rechte Taste              |
+| 23  | IN  | BTN1 | Button 1            | Eingang linke Taste               |

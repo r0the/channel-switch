@@ -15,24 +15,23 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "translate.h"
-#include "context.h"
+#include "translate_mode.h"
 
-Translate::Translate() :
+TranslateMode::TranslateMode() :
     _displayOnAir(false),
     _displayDirection(false)
 {
 }
 
-void Translate::initDisplay1(SB6432& display) {
+void TranslateMode::initDisplay1(SB6432& display) {
     display.setFontScale(2);
 }
 
-void Translate::initDisplay2(SB6432& display) {
+void TranslateMode::initDisplay2(SB6432& display) {
     display.setFontScale(2);
 }
 
-void Translate::loop(Context& context) {
+void TranslateMode::loop(Context& context) {
     // update display 1 to reflect state of channel 1
     if (_displayOnAir != context.channel1()) {
         _displayOnAir = context.channel1();
@@ -71,7 +70,7 @@ void Translate::loop(Context& context) {
     }
 }
 
-void Translate::updateDisplay1(SB6432& display) {
+void TranslateMode::updateDisplay1(SB6432& display) {
     display.fill(MODE_CLEAR);
     if (_displayOnAir) {
         display.fillRect(0, 0, 63, 5, MODE_SET);
@@ -85,7 +84,7 @@ void Translate::updateDisplay1(SB6432& display) {
     }
 }
 
-void Translate::updateDisplay2(SB6432& display) {
+void TranslateMode::updateDisplay2(SB6432& display) {
     display.fill(MODE_CLEAR);
     if (_displayDirection) {
         display.fillRect(0, 0, 63, 5, MODE_SET);

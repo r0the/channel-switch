@@ -15,46 +15,35 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "prog.h"
+#include "config_mode.h"
 #include "config.h"
-#include "context.h"
-#include "onair.h"
 
 #define MENU_ITEM_COUNT 4
-#define LANGUAGE_COUNT 4
 
 #define MENU_MODE 0
 #define MENU_LANGUAGE_1 1
 #define MENU_LANGUAGE_2 2
 #define MENU_EXIT 3
 
-const char* MODE_NAME[MODE_COUNT] = {"On-Air", "Translate"};
-const char* LANGUAGE_NAME[LANGUAGE_COUNT] = {"DEU", "FRA", "ITA", "ENG"};
-
-
-Prog::Prog() :
-    _language1(0),
-    _language2(1),
+ConfigMode::ConfigMode() :
+    _language1(CONFIG.language1()),
+    _language2(CONFIG.language2()),
     _menuItem(0),
-    _modeId(0)
+    _mode(CONFIG.mode())
 {
 }
 
-void Prog::init(Context& context) {
-    _modeId = context.mode();
-}
-
-void Prog::initDisplay1(SB6432& display) {
+void ConfigMode::initDisplay1(SB6432& display) {
     display.setFontScale(1);
     display.setBacklightColor(255, 255, 255);
 }
 
-void Prog::initDisplay2(SB6432& display) {
+void ConfigMode::initDisplay2(SB6432& display) {
     display.setFontScale(1);
     display.setBacklightColor(255, 255, 255);
 }
 
-void Prog::loop(Context& context) {
+void ConfigMode::loop(Context& context) {
     if (context.button1Down()) {
         _menuItem = (_menuItem + 1) % MENU_ITEM_COUNT;
         context.display1Dirty();
@@ -65,7 +54,7 @@ void Prog::loop(Context& context) {
         context.display2Dirty();
         switch (_menuItem) {
             case MENU_MODE:
-                _modeId = (_modeId + 1) % MODE_COUNT;
+                _mode = (_mode + 1) % MODE_COUNT;
                 break;
             case MENU_LANGUAGE_1:
                 _language1 = (_language1 + 1) % LANGUAGE_COUNT;
@@ -74,13 +63,15 @@ void Prog::loop(Context& context) {
                 _language2 = (_language2 + 1) % LANGUAGE_COUNT;
                 break;
             case MENU_EXIT:
-                context.setMode(_modeId);
+                CONFIG.setMode(_mode);
+                CONFIG.save();
+                context.initMode();
                 break;
         }
     }
 }
 
-void Prog::updateDisplay1(SB6432& display) {
+void ConfigMode::updateDisplay1(SB6432& display) {
     display.fill(MODE_CLEAR);
     display.write(0, 8, "Config Menu");
     switch (_menuItem) {
@@ -99,12 +90,12 @@ void Prog::updateDisplay1(SB6432& display) {
     }
 }
 
-void Prog::updateDisplay2(SB6432& display) {
+void ConfigMode::updateDisplay2(SB6432& display) {
     display.fill(MODE_CLEAR);
     display.write(0, 8, FIRMWARE_VERSION);
     switch (_menuItem) {
         case MENU_MODE:
-            display.write(0, 31, MODE_NAME[_modeId]);
+            display.write(0, 31, MODE_NAME[_mode]);
             break;
         case MENU_LANGUAGE_1:
             display.write(0, 31, LANGUAGE_NAME[_language1]);
