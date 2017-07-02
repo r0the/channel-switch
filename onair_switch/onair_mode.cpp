@@ -79,7 +79,7 @@ void OnAirMode::updateDisplay1(SB6432& display) {
         display.setBacklightColor(255, 0, 0);
     }
     else {
-        display.setBacklightColor(50, 0, 0);
+        display.setBacklightColor(50, 50, 50);
         display.write(1, 23, "OFFAIR");
     }
 }

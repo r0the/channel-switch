@@ -29,8 +29,9 @@ public:
     virtual void updateDisplay1(SB6432& display);
     virtual void updateDisplay2(SB6432& display);
 private:
-    uint8_t _state;
-    bool _displayMute;
+    uint8_t _channel;
+    bool _displayError;
+    bool _displayOnAir;
 };
 
 #endif

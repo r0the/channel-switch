@@ -37,7 +37,7 @@ Config::Config() :
 void Config::load() {
     _language1 = EEPROM.read(LANGUAGE1_ADDRESS);
     _language2 = EEPROM.read(LANGUAGE2_ADDRESS);
-    _mode =EEPROM.read(MODE_ADDRESS);
+    _mode = EEPROM.read(MODE_ADDRESS);
 }
 
 void Config::save() {

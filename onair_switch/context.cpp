@@ -44,6 +44,7 @@ void Context::setup() {
     selectDisplay2();
     _display2.begin();
 
+    CONFIG.load();
     initMode();
 }
 
