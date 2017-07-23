@@ -23,7 +23,6 @@
 class ConfigMode : public Mode {
 public:
     ConfigMode();
-    virtual void setup(Context& context);
     virtual void initDisplay1(SB6432& display);
     virtual void initDisplay2(SB6432& display);
     virtual void loop(Context& context);

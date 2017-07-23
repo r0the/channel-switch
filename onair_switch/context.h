@@ -27,7 +27,6 @@ class Context;
 
 class Mode {
 public:
-    virtual void setup(Context& context) = 0;
     virtual void initDisplay1(SB6432& display) = 0;
     virtual void initDisplay2(SB6432& display) = 0;
     virtual void loop(Context& context) = 0;

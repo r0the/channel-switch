@@ -42,14 +42,6 @@ static uint8_t detectState(Context& context) {
     }
 }
 
-TranslateMode::TranslateMode()
-{
-}
-
-void TranslateMode::setup(Context& context) {
-    _state = detectState(context);
-}
-
 void TranslateMode::initDisplay1(SB6432& display) {
     display.setFontScale(2);
 }

@@ -31,9 +31,6 @@ ConfigMode::ConfigMode() :
 {
 }
 
-void ConfigMode::setup(Context& context) {
-}
-
 void ConfigMode::initDisplay1(SB6432& display) {
     display.setFontScale(1);
     display.setBacklightColor(255, 255, 255);
