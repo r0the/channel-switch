@@ -29,7 +29,7 @@ public:
     virtual void updateDisplay1(SB6432& display);
     virtual void updateDisplay2(SB6432& display);
 private:
-    uint8_t _menuItem;
+    uint8_t _menuPos;
 };
 
 #endif

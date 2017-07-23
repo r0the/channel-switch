@@ -43,6 +43,29 @@
 static const char* FIRMWARE_VERSION = "Version 0.4";
 
 // ----------------------------------------------------------------------------
+// configuration item
+// ----------------------------------------------------------------------------
+
+class ConfigItem {
+public:
+    ConfigItem(uint8_t address, const char* title, uint8_t maxValue,
+        const char** names);
+    void load();
+    inline const char* name() const { return _names[_value]; }
+    void nextValue();
+    void save();
+    inline const char* title() const { return _title; }
+    inline uint8_t value() const { return _value; }
+private:
+    uint8_t _address;
+    uint8_t _maxValue;
+    const char** _names;
+    const char* _title;
+    uint8_t _value;
+};
+
+
+// ----------------------------------------------------------------------------
 // configuration of modes
 // ----------------------------------------------------------------------------
 
@@ -74,17 +97,19 @@ extern const char* TALLY_NAME[TALLY_COUNT];
 class Config {
 public:
     Config();
-    inline uint8_t language1() const { return _language1; }
-    inline uint8_t language2() const { return _language2; }
-    inline uint8_t mode() const { return _mode; }
-    inline uint8_t tally() const { return _tally; }
+    ConfigItem& item(uint8_t index) const;
+    inline uint8_t itemCount() const { return _itemCount; }
+
+    uint8_t language1() const;
+    uint8_t language2() const;
+    uint8_t mode() const;
+    uint8_t tally() const;
     void load();
     void save();
-    void nextLanguage1();
-    void nextLanguage2();
-    void nextMode();
-    void nextTally();
 private:
+    uint8_t _itemCount;
+    ConfigItem** _items;
+
     uint8_t _language1;
     uint8_t _language2;
     uint8_t _mode;

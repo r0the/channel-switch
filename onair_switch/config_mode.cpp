@@ -27,7 +27,7 @@
 #define MENU_EXIT 4
 
 ConfigMode::ConfigMode() :
-    _menuItem(0)
+    _menuPos(0)
 {
 }
 
@@ -43,30 +43,19 @@ void ConfigMode::initDisplay2(SB6432& display) {
 
 void ConfigMode::loop(Context& context) {
     if (context.button1Down()) {
-        _menuItem = (_menuItem + 1) % MENU_ITEM_COUNT;
+        _menuPos = (_menuPos + 1) % MENU_ITEM_COUNT;
         context.display1Dirty();
         context.display2Dirty();
     }
 
     if (context.button2Down()) {
         context.display2Dirty();
-        switch (_menuItem) {
-            case MENU_MODE:
-                CONFIG.nextMode();
-                break;
-            case MENU_LANGUAGE_1:
-                CONFIG.nextLanguage1();
-                break;
-            case MENU_LANGUAGE_2:
-                CONFIG.nextLanguage2();
-                break;
-            case MENU_TALLY:
-                CONFIG.nextTally();
-                break;
-            case MENU_EXIT:
-                CONFIG.save();
-                context.initMode();
-                break;
+        if (_menuPos == MENU_EXIT) {
+            CONFIG.save();
+            context.initMode();
+        }
+        else {
+            CONFIG.item(_menuPos).nextValue();
         }
     }
 }
@@ -74,44 +63,22 @@ void ConfigMode::loop(Context& context) {
 void ConfigMode::updateDisplay1(SB6432& display) {
     display.fill(MODE_CLEAR);
     display.write(0, 8, "Config Menu");
-    switch (_menuItem) {
-        case MENU_MODE:
-            display.write(0, 31, "Mode");
-            break;
-        case MENU_LANGUAGE_1:
-            display.write(0, 31, "Language 1");
-            break;
-        case MENU_LANGUAGE_2:
-            display.write(0, 31, "Language 2");
-            break;
-        case MENU_TALLY:
-            display.write(0, 31, "Tally active");
-            break;
-        case MENU_EXIT:
-            display.write(0, 31, "Exit");
-            break;
+    if (_menuPos == MENU_EXIT) {
+        display.write(0, 31, "Exit");
+    }
+    else {
+        display.write(0, 31, CONFIG.item(_menuPos).title());
     }
 }
 
 void ConfigMode::updateDisplay2(SB6432& display) {
     display.fill(MODE_CLEAR);
     display.write(0, 8, FIRMWARE_VERSION);
-    switch (_menuItem) {
-        case MENU_MODE:
-            display.write(0, 31, MODE_NAME[CONFIG.mode()]);
-            break;
-        case MENU_LANGUAGE_1:
-            display.write(0, 31, LANGUAGE_NAME[CONFIG.language1()]);
-            break;
-        case MENU_LANGUAGE_2:
-            display.write(0, 31, LANGUAGE_NAME[CONFIG.language2()]);
-            break;
-        case MENU_TALLY:
-            display.write(0, 31, TALLY_NAME[CONFIG.tally()]);
-            break;
-        case MENU_EXIT:
-            display.write(0, 31, "Confirm");
-            break;
+    if (_menuPos == MENU_EXIT) {
+        display.write(0, 31, "Confirm");
+    }
+    else {
+        display.write(0, 31, CONFIG.item(_menuPos).name());
     }
 }
 
