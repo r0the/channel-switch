@@ -40,7 +40,7 @@
 #define PULSE_LENGTH_MS 100
 #define LONG_PRESS_MS 5000
 
-static const char* FIRMWARE_VERSION = "Version 0.3";
+static const char* FIRMWARE_VERSION = "Version 0.4";
 
 // ----------------------------------------------------------------------------
 // configuration of modes

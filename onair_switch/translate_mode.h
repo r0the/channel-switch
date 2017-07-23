@@ -23,15 +23,15 @@
 class TranslateMode : public Mode {
 public:
     TranslateMode();
+    virtual void setup(Context& context);
     virtual void initDisplay1(SB6432& display);
     virtual void initDisplay2(SB6432& display);
     virtual void loop(Context& context);
     virtual void updateDisplay1(SB6432& display);
     virtual void updateDisplay2(SB6432& display);
 private:
-    uint8_t _channel;
-    bool _displayError;
-    bool _displayOnAir;
+    bool _language1;
+    uint8_t _state;
 };
 
 #endif

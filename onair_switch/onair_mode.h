@@ -23,6 +23,7 @@
 class OnAirMode : public Mode {
 public:
     OnAirMode();
+    virtual void setup(Context& context);
     virtual void initDisplay1(SB6432& display);
     virtual void initDisplay2(SB6432& display);
     virtual void loop(Context& context);

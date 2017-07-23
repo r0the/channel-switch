@@ -23,6 +23,9 @@ OnAirMode::OnAirMode() :
 {
 }
 
+void OnAirMode::setup(Context& context) {
+}
+
 void OnAirMode::initDisplay1(SB6432& display) {
     display.setFontScale(2);
 }

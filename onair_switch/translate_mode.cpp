@@ -18,16 +18,36 @@
 #include "translate_mode.h"
 #include "config.h"
 
-#define STATE_ERROR     0
-#define STATE_ONAIR     1
-#define STATE_MUTE      2
+#define STATE_MUTE       0
+#define STATE_LANGUAGE_1 1
+#define STATE_LANGUAGE_2 2
+#define STATE_ERROR      3
 
-#define LANGUAGE_1      1
-#define LANGUAGE_2      2
-
+static uint8_t detectState(Context& context) {
+    if (context.channel1()) {
+        if (context.channel2()) {
+            return STATE_ERROR;
+        }
+        else {
+            return STATE_LANGUAGE_1;
+        }
+    }
+    else {
+        if (context.channel2()) {
+            return STATE_LANGUAGE_2;
+        }
+        else {
+            return STATE_MUTE;
+        }        
+    }
+}
 
 TranslateMode::TranslateMode()
 {
+}
+
+void TranslateMode::setup(Context& context) {
+    _state = detectState(context);
 }
 
 void TranslateMode::initDisplay1(SB6432& display) {
@@ -39,124 +59,104 @@ void TranslateMode::initDisplay2(SB6432& display) {
 }
 
 void TranslateMode::loop(Context& context) {
-    // display error if both channels are open
-    bool lastOnAir = _displayOnAir;
-    bool lastError = _displayError;
-    uint8_t lastChannel = _channel;
-    _displayOnAir = context.channel1() || context.channel2();
-    _displayError = context.channel1() && context.channel2();
-    if (_displayOnAir && !_displayError) {
-        if (context.channel1()) {
-            _channel = LANGUAGE_1;
-        }
-        else if (context.channel2()) {
-            _channel = LANGUAGE_2;
-        }
+    bool lastLanguage1 = _language1;
+    uint8_t lastState = _state;
+    _state = detectState(context);
+    switch (_state) {
+        case STATE_ERROR:
+            context.toggleChannel2();
+            break;
+        case STATE_LANGUAGE_1:
+            _language1 = true;
+            break;
+        case STATE_LANGUAGE_2:
+            _language1 = false;
+            break;
     }
 
-    if (lastChannel != _channel || lastOnAir != _displayOnAir || lastError != _displayError) {
-        context.display1Dirty();
-    }
-
-    if (lastOnAir != _displayOnAir) {
-        context.display2Dirty();        
+    if (_state == STATE_ERROR) {
+        context.toggleChannel2();
+        return;
     }
 
     // if button 1 has gone down, change language
-    if (context.button1Down() && !_displayError) {
-        if (_displayOnAir) {
-            context.toggleChannel1();
-            context.toggleChannel2();            
+    if (context.button1Down()) {
+        if (_state == STATE_MUTE) {
+            _language1 = !_language1;
         }
         else {
-            switch (_channel) {
-                case LANGUAGE_1:
-                    context.toggleChannel1();
-                    break;
-                case LANGUAGE_2:
-                    context.toggleChannel2();
-                    break;
-            }
+            context.toggleChannel1();
+            context.toggleChannel2();            
         }
     }
 
     if (context.button2Down()) {
-        if (context.channel1()) {
+        if (_language1) {
             context.toggleChannel1();
         }
-
-        if (context.channel2()) {
+        else {
             context.toggleChannel2();
-        }        
+        }
     }
 
-    if (!context.button2()) {
-        if (!_displayOnAir) {
-            switch (_channel) {
-                case LANGUAGE_1:
-                    context.toggleChannel1();
-                    break;
-                case LANGUAGE_2:
-                    context.toggleChannel2();
-                    break;
-            }            
-        }
+    if (lastState != _state || lastLanguage1 != _language1) {
+        context.display1Dirty();
+    }
+
+    if (lastState != _state) {
+        context.display2Dirty();        
     }
 }
 
 void TranslateMode::updateDisplay1(SB6432& display) {
     display.fill(MODE_CLEAR);
-    if (_displayError) {
+    if (_state == STATE_ERROR) {
         display.write(4, 23, "Error");
         display.setBacklightColor(255, 0, 0);
         return;
     }
 
-    if (_displayOnAir) {
+    if (_state != STATE_MUTE) {
         display.fillRect(0, 0, 63, 5, MODE_SET);
         display.fillRect(0, 26, 63, 5, MODE_SET);
     }
 
-    switch (_channel) {
-        case LANGUAGE_1:
-            display.write(4, 23, LANGUAGE_NAME[CONFIG.language1()]);
-            if (_displayOnAir) {
-                display.setBacklightColor(0, 255, 0);
-            }
-            else {
-                display.setBacklightColor(0, 50, 0);                
-            }
-
-            break;
-        case LANGUAGE_2:
-            display.write(4, 23, LANGUAGE_NAME[CONFIG.language2()]);
-            if (_displayOnAir) {
-                display.setBacklightColor(0, 0, 255);
-            }
-            else {
-                display.setBacklightColor(0, 0, 50);                
-            }
-
-            break;
+    if (_language1) {
+        display.write(4, 23, LANGUAGE_NAME[CONFIG.language1()]);
+        if (_state == STATE_MUTE) {
+            display.setBacklightColor(0, 50, 0);                
+        }
+        else {
+            display.setBacklightColor(0, 255, 0);
+        }
+    }
+    else {
+        display.write(4, 23, LANGUAGE_NAME[CONFIG.language2()]);
+        if (_state == STATE_MUTE) {
+            display.setBacklightColor(0, 0, 50);                
+        }
+        else {
+            display.setBacklightColor(0, 0, 255);
+        }
     }
 }
 
 void TranslateMode::updateDisplay2(SB6432& display) {
     display.fill(MODE_CLEAR);
-    if (_displayError) {
+    if (_state == STATE_ERROR) {
         display.write(4, 23, "Error");
         display.setBacklightColor(255, 0, 0);
         return;
     }
 
     display.write(4, 23, "MUTE");
-    if (_displayOnAir) {
-        display.setBacklightColor(50, 50, 50);
-    }
-    else {
+    if (_state == STATE_MUTE) {
         display.fillRect(0, 0, 63, 5, MODE_SET);
         display.fillRect(0, 26, 63, 5, MODE_SET);
         display.setBacklightColor(255, 255, 255);
+    }
+    else {
+        display.setBacklightColor(50, 50, 50);
     }
 }
 
