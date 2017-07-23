@@ -59,6 +59,15 @@ extern const char* MODE_NAME[MODE_COUNT];
 extern const char* LANGUAGE_NAME[LANGUAGE_COUNT];
 
 // ----------------------------------------------------------------------------
+// configuration of tally modes
+// ----------------------------------------------------------------------------
+
+#define TALLY_ACTIVE_LOW 0
+#define TALLY_ACTIVE_HIGH 1
+#define TALLY_COUNT 2
+extern const char* TALLY_NAME[TALLY_COUNT];
+
+// ----------------------------------------------------------------------------
 // programmable persistent configuration
 // ----------------------------------------------------------------------------
 
@@ -68,15 +77,18 @@ public:
     inline uint8_t language1() const { return _language1; }
     inline uint8_t language2() const { return _language2; }
     inline uint8_t mode() const { return _mode; }
+    inline uint8_t tally() const { return _tally; }
     void load();
     void save();
     void nextLanguage1();
     void nextLanguage2();
     void nextMode();
+    void nextTally();
 private:
     uint8_t _language1;
     uint8_t _language2;
     uint8_t _mode;
+    uint8_t _tally;
 };
 
 extern Config CONFIG;

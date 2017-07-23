@@ -18,12 +18,13 @@
 #include "config_mode.h"
 #include "config.h"
 
-#define MENU_ITEM_COUNT 4
+#define MENU_ITEM_COUNT 5
 
 #define MENU_MODE 0
 #define MENU_LANGUAGE_1 1
 #define MENU_LANGUAGE_2 2
-#define MENU_EXIT 3
+#define MENU_TALLY 3
+#define MENU_EXIT 4
 
 ConfigMode::ConfigMode() :
     _menuItem(0)
@@ -62,6 +63,9 @@ void ConfigMode::loop(Context& context) {
             case MENU_LANGUAGE_2:
                 CONFIG.nextLanguage2();
                 break;
+            case MENU_TALLY:
+                CONFIG.nextTally();
+                break;
             case MENU_EXIT:
                 CONFIG.save();
                 context.initMode();
@@ -83,6 +87,9 @@ void ConfigMode::updateDisplay1(SB6432& display) {
         case MENU_LANGUAGE_2:
             display.write(0, 31, "Language 2");
             break;
+        case MENU_TALLY:
+            display.write(0, 31, "Tally active");
+            break;
         case MENU_EXIT:
             display.write(0, 31, "Exit");
             break;
@@ -101,6 +108,9 @@ void ConfigMode::updateDisplay2(SB6432& display) {
             break;
         case MENU_LANGUAGE_2:
             display.write(0, 31, LANGUAGE_NAME[CONFIG.language2()]);
+            break;
+        case MENU_TALLY:
+            display.write(0, 31, TALLY_NAME[CONFIG.tally()]);
             break;
         case MENU_EXIT:
             display.write(0, 31, "Confirm");

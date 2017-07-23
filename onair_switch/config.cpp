@@ -21,29 +21,34 @@
 #define LANGUAGE1_ADDRESS 1
 #define LANGUAGE2_ADDRESS 2
 #define MODE_ADDRESS      3
+#define TALLY_ADDRESS     4
 
 Config CONFIG;
 
 const char* MODE_NAME[MODE_COUNT] = {"On-Air", "Translate"};
 const char* LANGUAGE_NAME[LANGUAGE_COUNT] = {"DEU", "FRA", "ITA", "ENG"};
+const char* TALLY_NAME[TALLY_COUNT] = {"LOW", "HIGH"};
 
 Config::Config() :
     _language1(0),
     _language2(1),
-    _mode(0)
+    _mode(MODE_ON_AIR),
+    _tally(TALLY_ACTIVE_HIGH)
 {
 }
 
 void Config::load() {
-    _language1 = EEPROM.read(LANGUAGE1_ADDRESS);
-    _language2 = EEPROM.read(LANGUAGE2_ADDRESS);
-    _mode = EEPROM.read(MODE_ADDRESS);
+    _language1 = EEPROM.read(LANGUAGE1_ADDRESS) % LANGUAGE_COUNT;
+    _language2 = EEPROM.read(LANGUAGE2_ADDRESS) % LANGUAGE_COUNT;
+    _mode = EEPROM.read(MODE_ADDRESS) % MODE_COUNT;
+    _tally = EEPROM.read(TALLY_ADDRESS) % TALLY_COUNT;
 }
 
 void Config::save() {
     EEPROM.update(LANGUAGE1_ADDRESS, _language1);
     EEPROM.update(LANGUAGE2_ADDRESS, _language2);
     EEPROM.update(MODE_ADDRESS, _mode);
+    EEPROM.update(TALLY_ADDRESS, _tally);
 }
 
 void Config::nextLanguage1() {
@@ -56,5 +61,9 @@ void Config::nextLanguage2() {
 
 void Config::nextMode() {
     _mode = (_mode + 1) % MODE_COUNT;
+}
+
+void Config::nextTally() {
+    _tally = (_tally + 1) % TALLY_COUNT;
 }
 

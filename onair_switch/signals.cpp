@@ -18,6 +18,17 @@
 #include "signals.h"
 #include "config.h"
 
+static uint8_t activeTally() {
+    switch (CONFIG.tally()) {
+        case TALLY_ACTIVE_LOW:
+            return LOW;
+        case TALLY_ACTIVE_HIGH:
+            return HIGH;
+        default:
+            return HIGH;
+    }
+}
+
 void Signals::setup() {
     _channel1 = false;
     _channel2 = false;
@@ -42,8 +53,9 @@ void Signals::setup() {
 }
 
 void Signals::loop() {
-    _channel1 = digitalRead(PIN_TY1) == LOW;
-    _channel2 = digitalRead(PIN_TY2) == LOW;
+    uint8_t active = activeTally();
+    _channel1 = digitalRead(PIN_TY1) == active;
+    _channel2 = digitalRead(PIN_TY2) == active;
 
     unsigned long now = millis();
     if (_channel1End <= now) {
