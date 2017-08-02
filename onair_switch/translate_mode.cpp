@@ -22,8 +22,13 @@
 #define STATE_LANGUAGE_1 1
 #define STATE_LANGUAGE_2 2
 #define STATE_ERROR      3
+#define STATE_COMM_ERROR 4
 
 static uint8_t detectState(Context& context) {
+    if (context.commError()) {
+        return STATE_COMM_ERROR;
+    }
+
     if (context.channel1()) {
         if (context.channel2()) {
             return STATE_ERROR;
@@ -108,13 +113,19 @@ void TranslateMode::updateDisplay1(SB6432& display) {
         return;
     }
 
+    if (_state == STATE_COMM_ERROR) {
+        display.write(4, 23, "Comm");
+        display.setBacklightColor(255, 0, 0);
+        return;
+    }
+
     if (_state != STATE_MUTE) {
         display.fillRect(0, 0, 63, 5, MODE_SET);
         display.fillRect(0, 26, 63, 5, MODE_SET);
     }
 
     if (_language1) {
-        display.write(4, 23, LANGUAGE_NAME[CONFIG.language1()]);
+        display.write(4, 23, CONFIG[CONFIG_LANGUAGE_1].name());
         if (_state == STATE_MUTE) {
             display.setBacklightColor(0, 50, 0);                
         }
@@ -123,7 +134,7 @@ void TranslateMode::updateDisplay1(SB6432& display) {
         }
     }
     else {
-        display.write(4, 23, LANGUAGE_NAME[CONFIG.language2()]);
+        display.write(4, 23, CONFIG[CONFIG_LANGUAGE_2].name());
         if (_state == STATE_MUTE) {
             display.setBacklightColor(0, 0, 50);                
         }
@@ -136,6 +147,12 @@ void TranslateMode::updateDisplay1(SB6432& display) {
 void TranslateMode::updateDisplay2(SB6432& display) {
     display.fill(MODE_CLEAR);
     if (_state == STATE_ERROR) {
+        display.write(4, 23, "Error");
+        display.setBacklightColor(255, 0, 0);
+        return;
+    }
+
+    if (_state == STATE_COMM_ERROR) {
         display.write(4, 23, "Error");
         display.setBacklightColor(255, 0, 0);
         return;

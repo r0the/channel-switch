@@ -35,12 +35,53 @@
 #define PIN_TY2   19
 #define PIN_BTN2  22
 #define PIN_BTN1  23
+#define PIN_BOARD_1 A3
+#define PIN_BOARD_2 A2
 
 #define CS_DELAY 1
 #define PULSE_LENGTH_MS 100
 #define LONG_PRESS_MS 5000
 
 static const char* FIRMWARE_VERSION = "Version 0.4";
+
+// ----------------------------------------------------------------------------
+// configuration item indices
+// ----------------------------------------------------------------------------
+
+#define CONFIG_MODE       0
+#define CONFIG_LANGUAGE_1 1
+#define CONFIG_LANGUAGE_2 2
+#define CONFIG_TALLY      3
+#define CONFIG_COMM       4
+#define CONFIG_COUNT      5
+
+// ----------------------------------------------------------------------------
+// configuration of modes
+// ----------------------------------------------------------------------------
+
+#define MODE_ON_AIR    0
+#define MODE_TRANSLATE 1
+#define MODE_COUNT     2
+
+// ----------------------------------------------------------------------------
+// configuration of tally modes
+// ----------------------------------------------------------------------------
+
+#define TALLY_ACTIVE_LOW  0
+#define TALLY_ACTIVE_HIGH 1
+#define TALLY_COUNT       2
+
+// ----------------------------------------------------------------------------
+// configuration of communication mode
+// ----------------------------------------------------------------------------
+
+#define COMM_BAUD_RATE    4800
+#define COMM_TIMEOUT      1000
+#define COMM_KEEPALIVE_MS  100
+
+#define COMM_DIRECT 0
+#define COMM_SERIAL 1
+#define COMM_COUNT  2
 
 // ----------------------------------------------------------------------------
 // configuration item
@@ -64,32 +105,6 @@ private:
     uint8_t _value;
 };
 
-
-// ----------------------------------------------------------------------------
-// configuration of modes
-// ----------------------------------------------------------------------------
-
-#define MODE_ON_AIR 0
-#define MODE_TRANSLATE 1
-#define MODE_COUNT 2
-extern const char* MODE_NAME[MODE_COUNT];
-
-// ----------------------------------------------------------------------------
-// configuration of languages for translation mode
-// ----------------------------------------------------------------------------
-
-#define LANGUAGE_COUNT 4
-extern const char* LANGUAGE_NAME[LANGUAGE_COUNT];
-
-// ----------------------------------------------------------------------------
-// configuration of tally modes
-// ----------------------------------------------------------------------------
-
-#define TALLY_ACTIVE_LOW 0
-#define TALLY_ACTIVE_HIGH 1
-#define TALLY_COUNT 2
-extern const char* TALLY_NAME[TALLY_COUNT];
-
 // ----------------------------------------------------------------------------
 // programmable persistent configuration
 // ----------------------------------------------------------------------------
@@ -97,21 +112,14 @@ extern const char* TALLY_NAME[TALLY_COUNT];
 class Config {
 public:
     Config();
-    ConfigItem& item(uint8_t index) const;
-    inline uint8_t itemCount() const { return _itemCount; }
+    ConfigItem& operator[](uint8_t index) const;
 
-    uint8_t language1() const;
-    uint8_t language2() const;
-    uint8_t mode() const;
     uint8_t tally() const;
     void load();
     void save();
 private:
-    uint8_t _itemCount;
     ConfigItem** _items;
 
-    uint8_t _language1;
-    uint8_t _language2;
     uint8_t _mode;
     uint8_t _tally;
 };

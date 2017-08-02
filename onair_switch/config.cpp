@@ -18,23 +18,14 @@
 #include "config.h"
 #include <EEPROM.h>
 
-#define LANGUAGE1_ADDRESS 1
-#define LANGUAGE2_ADDRESS 2
-#define MODE_ADDRESS      3
-#define TALLY_ADDRESS     4
-
-// config item indices
-#define CONFIG_MODE       0
-#define CONFIG_LANGUAGE_1 1
-#define CONFIG_LANGUAGE_2 2
-#define CONFIG_TALLY      3
-#define CONFIG_COUNT      4
-
 Config CONFIG;
 
-const char* MODE_NAME[MODE_COUNT] = {"On-Air", "Translate"};
-const char* LANGUAGE_NAME[LANGUAGE_COUNT] = {"DEU", "FRA", "ITA", "ENG"};
-const char* TALLY_NAME[TALLY_COUNT] = {"LOW", "HIGH"};
+#define LANGUAGE_COUNT 4
+
+const char* MODE_NAMES[MODE_COUNT] = {"On-Air", "Translate"};
+const char* LANGUAGE_NAMES[LANGUAGE_COUNT] = {"DEU", "FRA", "ITA", "ENG"};
+const char* TALLY_NAMES[TALLY_COUNT] = {"LOW", "HIGH"};
+const char* COMM_NAMES[COMM_COUNT] = {"Direct", "Serial"};
 
 ConfigItem::ConfigItem(uint8_t address, const char* title, uint8_t maxValue, const char** names) :
     _address(address),
@@ -58,29 +49,17 @@ void ConfigItem::save() {
 }
 
 Config::Config() :
-    _itemCount(CONFIG_COUNT),
-    _items(new ConfigItem*[_itemCount])
+    _items(new ConfigItem*[CONFIG_COUNT])
 {
-    _items[CONFIG_MODE] = new ConfigItem(3, "Mode", MODE_COUNT, MODE_NAME);
-    _items[CONFIG_LANGUAGE_1] = new ConfigItem(1, "Language 1", LANGUAGE_COUNT, LANGUAGE_NAME);
-    _items[CONFIG_LANGUAGE_2] = new ConfigItem(2, "Language 2", LANGUAGE_COUNT, LANGUAGE_NAME);
-    _items[CONFIG_TALLY] = new ConfigItem(4, "Tally Active", TALLY_COUNT, TALLY_NAME);
+    _items[CONFIG_MODE] = new ConfigItem(3, "Mode", MODE_COUNT, MODE_NAMES);
+    _items[CONFIG_LANGUAGE_1] = new ConfigItem(1, "Language 1", LANGUAGE_COUNT, LANGUAGE_NAMES);
+    _items[CONFIG_LANGUAGE_2] = new ConfigItem(2, "Language 2", LANGUAGE_COUNT, LANGUAGE_NAMES);
+    _items[CONFIG_TALLY] = new ConfigItem(4, "Tally Active", TALLY_COUNT, TALLY_NAMES);
+    _items[CONFIG_COMM] = new ConfigItem(5, "Comm", COMM_COUNT, COMM_NAMES);
 }
 
-ConfigItem& Config::item(uint8_t index) const {
+ConfigItem& Config::operator[](uint8_t index) const {
     return *_items[index];
-}
-
-uint8_t Config::language1() const {
-    return _items[CONFIG_LANGUAGE_1]->value();
-}
-
-uint8_t Config::language2() const {
-    return _items[CONFIG_LANGUAGE_2]->value();    
-}
-
-uint8_t Config::mode() const {
-    return _items[CONFIG_MODE]->value();
 }
 
 uint8_t Config::tally() const {
@@ -88,13 +67,13 @@ uint8_t Config::tally() const {
 }
 
 void Config::load() {
-    for (uint8_t i = 0; i < _itemCount; ++i) {
+    for (uint8_t i = 0; i < CONFIG_COUNT; ++i) {
         _items[i]->load();
     }
 }
 
 void Config::save() {
-    for (uint8_t i = 0; i < _itemCount; ++i) {
+    for (uint8_t i = 0; i < CONFIG_COUNT; ++i) {
         _items[i]->save();
     }
 }

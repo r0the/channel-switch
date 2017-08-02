@@ -16,24 +16,27 @@
  */
 
 #include "context.h"
+#include "config.h"
+
 #include "onair_mode.h"
 #include "config_mode.h"
 #include "translate_mode.h"
-#include "config.h"
+
+#include "direct_comm.h"
+#include "serial_comm.h"
 
 Context::Context() :
+    _comm(NULL),
     _display1(PIN_CLK, PIN_DATA),
     _display1Dirty(false),
     _display2(PIN_CLK, PIN_DATA),
     _display2Dirty(false),
-    _mode(NULL),
-    _signals()
+    _mode(NULL)
 {
 }
 
 void Context::setup() {
     _buttons.setup();
-    _signals.setup();
     pinMode(PIN_CS, OUTPUT);
 
     // init display 1
@@ -45,17 +48,15 @@ void Context::setup() {
     _display2.begin();
 
     CONFIG.load();
-    initMode();
+    setupComm();
+    setupMode();
 }
 
 void Context::loop() {
     _buttons.loop();
-    _signals.loop();
-    // check for end of pulse
-    unsigned long now = millis();
-
+    _comm->loop();
     if (_buttons.longPress()) {
-        initMode(new ConfigMode);
+        setupMode(new ConfigMode);
     }
 
     // program logic
@@ -88,9 +89,25 @@ void Context::selectDisplay2() {
     delay(CS_DELAY);
 }
 
-void Context::initMode(Mode* mode) {
+void Context::setupComm() {
+    Comm* comm = NULL;
+    switch (CONFIG[CONFIG_COMM].value()) {
+        case COMM_DIRECT:
+            comm = new DirectComm;
+            break;
+        case COMM_SERIAL:
+            comm = new SerialComm;
+            break;
+    }
+
+    delete _comm;
+    _comm = comm;
+    _comm->setup();
+}
+
+void Context::setupMode(Mode* mode) {
     if (mode == NULL) {
-        switch (CONFIG.mode()) {
+        switch (CONFIG[CONFIG_MODE].value()) {
             case MODE_ON_AIR:
                 mode = new OnAirMode;
                 break;

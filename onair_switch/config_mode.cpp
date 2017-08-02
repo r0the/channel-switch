@@ -18,14 +18,6 @@
 #include "config_mode.h"
 #include "config.h"
 
-#define MENU_ITEM_COUNT 5
-
-#define MENU_MODE 0
-#define MENU_LANGUAGE_1 1
-#define MENU_LANGUAGE_2 2
-#define MENU_TALLY 3
-#define MENU_EXIT 4
-
 ConfigMode::ConfigMode() :
     _menuPos(0)
 {
@@ -43,19 +35,20 @@ void ConfigMode::initDisplay2(SB6432& display) {
 
 void ConfigMode::loop(Context& context) {
     if (context.button1Down()) {
-        _menuPos = (_menuPos + 1) % MENU_ITEM_COUNT;
+        _menuPos = (_menuPos + 1) % (CONFIG_COUNT + 1);
         context.display1Dirty();
         context.display2Dirty();
     }
 
     if (context.button2Down()) {
         context.display2Dirty();
-        if (_menuPos == MENU_EXIT) {
+        if (_menuPos == CONFIG_COUNT) {
             CONFIG.save();
-            context.initMode();
+            context.setupComm();
+            context.setupMode();
         }
         else {
-            CONFIG.item(_menuPos).nextValue();
+            CONFIG[_menuPos].nextValue();
         }
     }
 }
@@ -63,22 +56,22 @@ void ConfigMode::loop(Context& context) {
 void ConfigMode::updateDisplay1(SB6432& display) {
     display.fill(MODE_CLEAR);
     display.write(0, 8, "Config Menu");
-    if (_menuPos == MENU_EXIT) {
+    if (_menuPos == CONFIG_COUNT) {
         display.write(0, 31, "Exit");
     }
     else {
-        display.write(0, 31, CONFIG.item(_menuPos).title());
+        display.write(0, 31, CONFIG[_menuPos].title());
     }
 }
 
 void ConfigMode::updateDisplay2(SB6432& display) {
     display.fill(MODE_CLEAR);
     display.write(0, 8, FIRMWARE_VERSION);
-    if (_menuPos == MENU_EXIT) {
+    if (_menuPos == CONFIG_COUNT) {
         display.write(0, 31, "Confirm");
     }
     else {
-        display.write(0, 31, CONFIG.item(_menuPos).name());
+        display.write(0, 31, CONFIG[_menuPos].name());
     }
 }
 

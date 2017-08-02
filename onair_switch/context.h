@@ -20,10 +20,23 @@
 
 #include <Arduino.h>
 #include <sb6432.h>
+#include "behaviour.h"
 #include "buttons.h"
-#include "signals.h"
 
 class Context;
+
+class Comm {
+public:
+    virtual void setup() = 0;
+    virtual void loop() = 0;
+    virtual bool channel1() const = 0;
+    virtual bool channel2() const = 0;
+    virtual bool error() const = 0;
+    virtual void setDirection(bool active) = 0;
+    virtual void toggleChannel1() = 0;
+    virtual void toggleChannel2() = 0;
+    virtual void toggleMute() = 0;
+};
 
 class Mode {
 public:
@@ -34,31 +47,33 @@ public:
     virtual void updateDisplay2(SB6432& display) = 0;
 };
 
-class Context {
+class Context : public Behaviour {
 public:
     Context();
-    void setup();
-    void loop();
+    virtual void setup();
+    virtual void loop();
     inline bool button1Down() const { return _buttons.button1Down(); }
     inline bool button2() const { return _buttons.button2(); }
     inline bool button2Down() const { return _buttons.button2Down(); }
-    inline bool channel1() const { return _signals.channel1(); }
-    inline bool channel2() const { return _signals.channel2(); }
+    inline bool channel1() const { return _comm->channel1(); }
+    inline bool channel2() const { return _comm->channel2(); }
+    inline bool commError() const { return _comm->error(); }
     inline bool display1Dirty() { _display1Dirty = true; }
     inline bool display2Dirty() { _display2Dirty = true; }
-    void initMode(Mode* mode = NULL);
-    inline void setDirection(bool active) { _signals.setDirection(active); }
-    inline void toggleChannel1() { _signals.toggleChannel1(); }
-    inline void toggleChannel2() { _signals.toggleChannel2(); }
-    inline void toggleMute() { _signals.toggleMute(); };
+    void setupComm();
+    void setupMode(Mode* mode = NULL);
+    inline void setDirection(bool active) { _comm->setDirection(active); }
+    inline void toggleChannel1() { _comm->toggleChannel1(); }
+    inline void toggleChannel2() { _comm->toggleChannel2(); }
+    inline void toggleMute() { _comm->toggleMute(); };
 private:
     Buttons _buttons;
+    Comm* _comm;
     SB6432 _display1;
     bool _display1Dirty;
     SB6432 _display2;
     bool _display2Dirty;
     Mode* _mode;
-    Signals _signals;
     void selectDisplay1();
     void selectDisplay2();
 };

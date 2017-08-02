@@ -32,6 +32,8 @@ void OnAirMode::initDisplay2(SB6432& display) {
 }
 
 void OnAirMode::loop(Context& context) {
+    _displayCommError = context.commError();
+
     // update display 1 to reflect state of channel 1
     if (_displayOnAir != context.channel1()) {
         _displayOnAir = context.channel1();
@@ -72,6 +74,12 @@ void OnAirMode::loop(Context& context) {
 
 void OnAirMode::updateDisplay1(SB6432& display) {
     display.fill(MODE_CLEAR);
+    if (_displayCommError) {
+        display.write(4, 23, "Comm");
+        display.setBacklightColor(255, 0, 0);
+        return;
+    }
+
     if (_displayOnAir) {
         display.fillRect(0, 0, 63, 5, MODE_SET);
         display.fillRect(0, 26, 63, 5, MODE_SET);
@@ -86,6 +94,12 @@ void OnAirMode::updateDisplay1(SB6432& display) {
 
 void OnAirMode::updateDisplay2(SB6432& display) {
     display.fill(MODE_CLEAR);
+    if (_displayCommError) {
+        display.write(4, 23, "Error");
+        display.setBacklightColor(255, 0, 0);
+        return;
+    }
+
     if (_displayDirection) {
         display.fillRect(0, 0, 63, 5, MODE_SET);
         display.fillRect(0, 26, 63, 5, MODE_SET);

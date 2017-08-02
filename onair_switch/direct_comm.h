@@ -15,24 +15,28 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ONAIR_MODE_H
-#define ONAIR_MODE_H
+#ifndef DIRECT_COMM_H
+#define DIRECT_COMM_H
 
 #include "context.h"
 
-class OnAirMode : public Mode {
+class DirectComm : public Comm {
 public:
-    OnAirMode();
-    virtual void initDisplay1(SB6432& display);
-    virtual void initDisplay2(SB6432& display);
-    virtual void loop(Context& context);
-    virtual void updateDisplay1(SB6432& display);
-    virtual void updateDisplay2(SB6432& display);
+    virtual void setup();
+    virtual void loop();
+    virtual bool channel1() const;
+    virtual bool channel2() const;
+    virtual bool error() const;
+    virtual void setDirection(bool active);
+    virtual void toggleChannel1();
+    virtual void toggleChannel2();
+    virtual void toggleMute();
 private:
-    bool _displayCommError;
-    bool _displayOnAir;
-    bool _displayDirection;
-    bool _onAirBeforeDirection;
+    bool _channel1;
+    bool _channel2;
+    unsigned long _channel1End;
+    unsigned long _muteEnd;
+    unsigned long _channel2End;
 };
 
 #endif

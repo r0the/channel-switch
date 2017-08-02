@@ -15,15 +15,31 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "base.h"
+#include "config.h"
 #include "context.h"
 
-Context context;
+// TODO: delay mute display
+// TODO: center text
+
+Behaviour* behaviour;
+
 
 void setup() {
-    context.setup();
+    pinMode(PIN_BOARD_1, INPUT_PULLUP);
+    pinMode(PIN_BOARD_2, INPUT_PULLUP);
+    delay(100);
+    if (digitalRead(PIN_BOARD_1) == HIGH) {
+        behaviour = new Base;
+    }
+    else {
+        behaviour = new Context;
+    }
+
+    behaviour->setup();
 }
 
 void loop() {
-    context.loop();
+    behaviour->loop();
 }
 
