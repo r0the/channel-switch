@@ -72,7 +72,7 @@
 // version information
 // ----------------------------------------------------------------------------
 
-static const char* FIRMWARE_VERSION = "Version 0.4";
+static const char* FIRMWARE_VERSION = "Version 0.5";
 
 // ----------------------------------------------------------------------------
 // serial commands
