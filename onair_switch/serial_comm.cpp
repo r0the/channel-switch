@@ -62,22 +62,22 @@ bool SerialComm::error() const {
 
 void SerialComm::setDirection(bool active) {
     if (active) {
-        Serial1.write('D');
+        Serial1.write(CMD_DIRECTION_ENABLE);
     }
     else {
-        Serial1.write('d');
+        Serial1.write(CMD_DIRECTION_DISABLE);
     }
 }
 
 void SerialComm::toggleChannel1() {
-    Serial1.write('1');
+    Serial1.write(CMD_TOGGLE_CHANNEL_1);
 }
 
 void SerialComm::toggleChannel2() {
-    Serial1.write('2');
+    Serial1.write(CMD_TOGGLE_CHANNEL_2);
 }
 
 void SerialComm::toggleMute() {
-    Serial1.write('M');
+    Serial1.write(CMD_TOGGLE_MUTE);
 }
 

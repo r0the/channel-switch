@@ -31,19 +31,19 @@ void Base::loop() {
     if (Serial1.available()) {
         char cmd = Serial1.read();
         switch (cmd) {
-            case '1':
+            case CMD_TOGGLE_CHANNEL_1:
                 _comm.toggleChannel1();
                 break;
-            case '2':
+            case CMD_TOGGLE_CHANNEL_2:
                 _comm.toggleChannel2();
                 break;
-            case 'M':
+            case CMD_TOGGLE_MUTE:
                 _comm.toggleMute();
                 break;
-            case 'D':
+            case CMD_DIRECTION_ENABLE:
                 _comm.setDirection(true);
                 break;
-            case 'd':
+            case CMD_DIRECTION_DISABLE:
                 _comm.setDirection(false);
                 break;
         }

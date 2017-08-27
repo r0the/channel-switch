@@ -45,6 +45,16 @@
 static const char* FIRMWARE_VERSION = "Version 0.4";
 
 // ----------------------------------------------------------------------------
+// Serial commands
+// ----------------------------------------------------------------------------
+
+#define CMD_TOGGLE_CHANNEL_1 '1'
+#define CMD_TOGGLE_CHANNEL_2 '2'
+#define CMD_TOGGLE_MUTE 'M'
+#define CMD_DIRECTION_ENABLE 'D'
+#define CMD_DIRECTION_DISABLE 'd'
+
+// ----------------------------------------------------------------------------
 // configuration item indices
 // ----------------------------------------------------------------------------
 
