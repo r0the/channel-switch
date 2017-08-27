@@ -1,5 +1,28 @@
 # On-Air/Off-Air Switch
 
+## Voraussetzungen
+
+Die On-Air/Off-Air Switch Arduino-Software ist für den Einsatz auf einem [Adafruit Feather 32u4 RFM95 LoRa Radio](https://www.adafruit.com/product/3078)
+Board vorgesehen. Um das Programm zu kompilieren, ist folgende Umgebung nötig:
+
+* Arduino IDE 1.8 oder neuer
+* Adafruit AVR Boards für Arduino IDE (Installation mit Boards Manager)
+* [MonoGFX-Arduino library](https://github.com/r0the/monogfx-arduino)
+
+## Gerätekonfiguration
+
+Für die verschiedenen Geräte des On-Air/Off-Air Switch wird die gleiche Arduino-Software verwendet. Der Betriebsmodus
+wird über die Eingänge A2 und A3 des Adafruit Feather festgelegt.
+
+| A2  | A3  | Gerät                                      |
+|:--- |:--- |:------------------------------------------ |
+| 0 V | 0 V | mobiles Switchboard mit LoRa-Kommunikation |
+| 0 V | 5 V | Adapter LoRa-zu Audio-FSK-Kommunikation    |
+| 5 V | 0 V | Switchboard mit Audio-FSK-Kommunikation    |
+| 5 V | 5 V | Basisstation für Audio-FSK-Kommunikation   |
+
+Die Eingänge A2 und A3 sind mit einem Pullup-Widerstand geschaltet, per Default wird also immer die Option mit 5 V gewählt.
+
 ## Betriebsmodus On-Air/Off-Air
 
 In diesem Modus kann mit der linken Taste das Mikrofon auf Sendung geschaltet werden. Mit der rechten Taste kann eine Sprechverbindung zur Regie aufgebaut werden.
