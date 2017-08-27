@@ -49,10 +49,12 @@ static uint8_t detectState(Switchboard& switchboard) {
 
 void TranslateMode::initDisplay1(SB6432& display) {
     display.setFontScale(2);
+    display.setTextAlign(ALIGN_CENTER);
 }
 
 void TranslateMode::initDisplay2(SB6432& display) {
     display.setFontScale(2);
+    display.setTextAlign(ALIGN_CENTER);
 }
 
 void TranslateMode::loop(Switchboard& switchboard) {
@@ -108,13 +110,13 @@ void TranslateMode::loop(Switchboard& switchboard) {
 void TranslateMode::updateDisplay1(SB6432& display) {
     display.fill(MODE_CLEAR);
     if (_state == STATE_ERROR) {
-        display.write(4, 23, "Error");
+        display.write(31, 23, "Error");
         display.setBacklightColor(255, 0, 0);
         return;
     }
 
     if (_state == STATE_COMM_ERROR) {
-        display.write(4, 23, "Comm");
+        display.write(31, 23, "Comm");
         display.setBacklightColor(255, 0, 0);
         return;
     }
@@ -125,7 +127,7 @@ void TranslateMode::updateDisplay1(SB6432& display) {
     }
 
     if (_language1) {
-        display.write(4, 23, CONFIG[CONFIG_LANGUAGE_1].name());
+        display.write(31, 23, CONFIG[CONFIG_LANGUAGE_1].name());
         if (_state == STATE_MUTE) {
             display.setBacklightColor(0, 50, 0);                
         }
@@ -134,7 +136,7 @@ void TranslateMode::updateDisplay1(SB6432& display) {
         }
     }
     else {
-        display.write(4, 23, CONFIG[CONFIG_LANGUAGE_2].name());
+        display.write(31, 23, CONFIG[CONFIG_LANGUAGE_2].name());
         if (_state == STATE_MUTE) {
             display.setBacklightColor(0, 0, 50);                
         }
@@ -147,18 +149,18 @@ void TranslateMode::updateDisplay1(SB6432& display) {
 void TranslateMode::updateDisplay2(SB6432& display) {
     display.fill(MODE_CLEAR);
     if (_state == STATE_ERROR) {
-        display.write(4, 23, "Error");
+        display.write(31, 23, "Error");
         display.setBacklightColor(255, 0, 0);
         return;
     }
 
     if (_state == STATE_COMM_ERROR) {
-        display.write(4, 23, "Error");
+        display.write(31, 23, "Error");
         display.setBacklightColor(255, 0, 0);
         return;
     }
 
-    display.write(4, 23, "MUTE");
+    display.write(31, 23, "MUTE");
     if (_state == STATE_MUTE) {
         display.fillRect(0, 0, 63, 5, MODE_SET);
         display.fillRect(0, 26, 63, 5, MODE_SET);

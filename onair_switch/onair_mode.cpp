@@ -25,10 +25,12 @@ OnAirMode::OnAirMode() :
 
 void OnAirMode::initDisplay1(SB6432& display) {
     display.setFontScale(2);
+    display.setTextAlign(ALIGN_CENTER);
 }
 
 void OnAirMode::initDisplay2(SB6432& display) {
     display.setFontScale(2);
+    display.setTextAlign(ALIGN_CENTER);
 }
 
 void OnAirMode::loop(Switchboard& switchboard) {
@@ -75,7 +77,7 @@ void OnAirMode::loop(Switchboard& switchboard) {
 void OnAirMode::updateDisplay1(SB6432& display) {
     display.fill(MODE_CLEAR);
     if (_displayCommError) {
-        display.write(4, 23, "Comm");
+        display.write(31, 23, "Comm");
         display.setBacklightColor(255, 0, 0);
         return;
     }
@@ -83,19 +85,19 @@ void OnAirMode::updateDisplay1(SB6432& display) {
     if (_displayOnAir) {
         display.fillRect(0, 0, 63, 5, MODE_SET);
         display.fillRect(0, 26, 63, 5, MODE_SET);
-        display.write(4, 23, "ON AIR");
+        display.write(31, 23, "ON AIR");
         display.setBacklightColor(255, 0, 0);
     }
     else {
         display.setBacklightColor(50, 50, 50);
-        display.write(1, 23, "OFFAIR");
+        display.write(31, 23, "OFFAIR");
     }
 }
 
 void OnAirMode::updateDisplay2(SB6432& display) {
     display.fill(MODE_CLEAR);
     if (_displayCommError) {
-        display.write(4, 23, "Error");
+        display.write(31, 23, "Error");
         display.setBacklightColor(255, 0, 0);
         return;
     }
@@ -109,6 +111,6 @@ void OnAirMode::updateDisplay2(SB6432& display) {
         display.setBacklightColor(0, 0, 50);
     }
 
-    display.write(4, 23, "REGIE");
+    display.write(31, 23, "REGIE");
 }
 
