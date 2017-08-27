@@ -33,19 +33,19 @@ void ConfigMode::initDisplay2(SB6432& display) {
     display.setBacklightColor(255, 255, 255);
 }
 
-void ConfigMode::loop(Context& context) {
-    if (context.button1Down()) {
+void ConfigMode::loop(Switchboard& switchboard) {
+    if (switchboard.button1Down()) {
         _menuPos = (_menuPos + 1) % (CONFIG_COUNT + 1);
-        context.display1Dirty();
-        context.display2Dirty();
+        switchboard.display1Dirty();
+        switchboard.display2Dirty();
     }
 
-    if (context.button2Down()) {
-        context.display2Dirty();
+    if (switchboard.button2Down()) {
+        switchboard.display2Dirty();
         if (_menuPos == CONFIG_COUNT) {
             CONFIG.save();
-            context.setupComm();
-            context.setupMode();
+            switchboard.setupComm();
+            switchboard.setupMode();
         }
         else {
             CONFIG[_menuPos].nextValue();

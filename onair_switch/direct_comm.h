@@ -18,7 +18,7 @@
 #ifndef DIRECT_COMM_H
 #define DIRECT_COMM_H
 
-#include "context.h"
+#include "switchboard.h"
 
 class DirectComm : public Comm {
 public:

@@ -24,13 +24,13 @@
 #define STATE_ERROR      3
 #define STATE_COMM_ERROR 4
 
-static uint8_t detectState(Context& context) {
-    if (context.commError()) {
+static uint8_t detectState(Switchboard& switchboard) {
+    if (switchboard.commError()) {
         return STATE_COMM_ERROR;
     }
 
-    if (context.channel1()) {
-        if (context.channel2()) {
+    if (switchboard.channel1()) {
+        if (switchboard.channel2()) {
             return STATE_ERROR;
         }
         else {
@@ -38,7 +38,7 @@ static uint8_t detectState(Context& context) {
         }
     }
     else {
-        if (context.channel2()) {
+        if (switchboard.channel2()) {
             return STATE_LANGUAGE_2;
         }
         else {
@@ -55,13 +55,13 @@ void TranslateMode::initDisplay2(SB6432& display) {
     display.setFontScale(2);
 }
 
-void TranslateMode::loop(Context& context) {
+void TranslateMode::loop(Switchboard& switchboard) {
     bool lastLanguage1 = _language1;
     uint8_t lastState = _state;
-    _state = detectState(context);
+    _state = detectState(switchboard);
     switch (_state) {
         case STATE_ERROR:
-            context.toggleChannel2();
+            switchboard.toggleChannel2();
             break;
         case STATE_LANGUAGE_1:
             _language1 = true;
@@ -72,36 +72,36 @@ void TranslateMode::loop(Context& context) {
     }
 
     if (_state == STATE_ERROR) {
-        context.toggleChannel2();
+        switchboard.toggleChannel2();
         return;
     }
 
     // if button 1 has gone down, change language
-    if (context.button1Down()) {
+    if (switchboard.button1Down()) {
         if (_state == STATE_MUTE) {
             _language1 = !_language1;
         }
         else {
-            context.toggleChannel1();
-            context.toggleChannel2();            
+            switchboard.toggleChannel1();
+            switchboard.toggleChannel2();            
         }
     }
 
-    if (context.button2Down()) {
+    if (switchboard.button2Down()) {
         if (_language1) {
-            context.toggleChannel1();
+            switchboard.toggleChannel1();
         }
         else {
-            context.toggleChannel2();
+            switchboard.toggleChannel2();
         }
     }
 
     if (lastState != _state || lastLanguage1 != _language1) {
-        context.display1Dirty();
+        switchboard.display1Dirty();
     }
 
     if (lastState != _state) {
-        context.display2Dirty();        
+        switchboard.display2Dirty();        
     }
 }
 

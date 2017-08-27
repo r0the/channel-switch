@@ -17,7 +17,7 @@
 
 #include "base.h"
 #include "config.h"
-#include "context.h"
+#include "switchboard.h"
 
 // TODO: delay mute display
 // TODO: center text
@@ -33,7 +33,7 @@ void setup() {
         behaviour = new Base;
     }
     else {
-        behaviour = new Context;
+        behaviour = new Switchboard;
     }
 
     behaviour->setup();

@@ -31,42 +31,42 @@ void OnAirMode::initDisplay2(SB6432& display) {
     display.setFontScale(2);
 }
 
-void OnAirMode::loop(Context& context) {
-    _displayCommError = context.commError();
+void OnAirMode::loop(Switchboard& switchboard) {
+    _displayCommError = switchboard.commError();
 
     // update display 1 to reflect state of channel 1
-    if (_displayOnAir != context.channel1()) {
-        _displayOnAir = context.channel1();
-        context.display1Dirty();
+    if (_displayOnAir != switchboard.channel1()) {
+        _displayOnAir = switchboard.channel1();
+        switchboard.display1Dirty();
     }
 
     // activate direction, if button 2 is pressed and we are off-air
-    bool direction = context.button2() && !context.channel1();
-    context.setDirection(direction);
+    bool direction = switchboard.button2() && !switchboard.channel1();
+    switchboard.setDirection(direction);
     // update display 2
     if (_displayDirection != direction) {
         _displayDirection = direction;
-        context.display2Dirty();
+        switchboard.display2Dirty();
     }
 
     // if button 1 has gone down, dispatch on-air/off-air request
-    if (context.button1Down()) {
-        context.toggleChannel1();
+    if (switchboard.button1Down()) {
+        switchboard.toggleChannel1();
     }
 
     // if button 2 has gone down, try to activate direction mode
-    if (context.button2Down()) { 
-        _onAirBeforeDirection = context.channel1();
+    if (switchboard.button2Down()) { 
+        _onAirBeforeDirection = switchboard.channel1();
         // if we are on-air, request to go off-air
         if (_onAirBeforeDirection) {
-            context.toggleChannel1();
+            switchboard.toggleChannel1();
         }
     }
 
     // if button 2 has been released and FLAG is still set, send on-air request
-    if (!context.button2()) {
-        if (_onAirBeforeDirection && !context.channel1()) {
-            context.toggleChannel1();
+    if (!switchboard.button2()) {
+        if (_onAirBeforeDirection && !switchboard.channel1()) {
+            switchboard.toggleChannel1();
             _onAirBeforeDirection = false;
         }
     }

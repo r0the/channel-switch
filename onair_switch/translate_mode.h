@@ -18,13 +18,13 @@
 #ifndef TRANSLATE_MODE_H
 #define TRANSLATE_MODE_H
 
-#include "context.h"
+#include "switchboard.h"
 
 class TranslateMode : public Mode {
 public:
     virtual void initDisplay1(SB6432& display);
     virtual void initDisplay2(SB6432& display);
-    virtual void loop(Context& context);
+    virtual void loop(Switchboard& switchboard);
     virtual void updateDisplay1(SB6432& display);
     virtual void updateDisplay2(SB6432& display);
 private:

@@ -18,7 +18,7 @@
 #ifndef SERIAL_COMM_H
 #define SERIAL_COMM_H
 
-#include "context.h"
+#include "switchboard.h"
 
 class SerialComm : public Comm {
 public:

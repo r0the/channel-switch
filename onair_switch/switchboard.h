@@ -23,7 +23,7 @@
 #include "behaviour.h"
 #include "buttons.h"
 
-class Context;
+class Switchboard;
 
 class Comm {
 public:
@@ -42,14 +42,14 @@ class Mode {
 public:
     virtual void initDisplay1(SB6432& display) = 0;
     virtual void initDisplay2(SB6432& display) = 0;
-    virtual void loop(Context& context) = 0;
+    virtual void loop(Switchboard& context) = 0;
     virtual void updateDisplay1(SB6432& display) = 0;
     virtual void updateDisplay2(SB6432& display) = 0;
 };
 
-class Context : public Behaviour {
+class Switchboard : public Behaviour {
 public:
-    Context();
+    Switchboard();
     virtual void setup();
     virtual void loop();
     inline bool button1Down() const { return _buttons.button1Down(); }

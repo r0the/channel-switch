@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "context.h"
+#include "switchboard.h"
 #include "config.h"
 
 #include "onair_mode.h"
@@ -25,7 +25,7 @@
 #include "direct_comm.h"
 #include "serial_comm.h"
 
-Context::Context() :
+Switchboard::Switchboard() :
     _comm(NULL),
     _display1(PIN_CLK, PIN_DATA),
     _display1Dirty(false),
@@ -35,7 +35,7 @@ Context::Context() :
 {
 }
 
-void Context::setup() {
+void Switchboard::setup() {
     _buttons.setup();
     pinMode(PIN_CS, OUTPUT);
 
@@ -52,7 +52,7 @@ void Context::setup() {
     setupMode();
 }
 
-void Context::loop() {
+void Switchboard::loop() {
     _buttons.loop();
     _comm->loop();
     if (_buttons.longPress()) {
@@ -77,19 +77,19 @@ void Context::loop() {
     }
 }
 
-void Context::selectDisplay1() {
+void Switchboard::selectDisplay1() {
     delay(CS_DELAY);
     digitalWrite(PIN_CS, LOW);
     delay(CS_DELAY);
 }
 
-void Context::selectDisplay2() {
+void Switchboard::selectDisplay2() {
     delay(CS_DELAY);
     digitalWrite(PIN_CS, HIGH);
     delay(CS_DELAY);
 }
 
-void Context::setupComm() {
+void Switchboard::setupComm() {
     Comm* comm = NULL;
     switch (CONFIG[CONFIG_COMM].value()) {
         case COMM_DIRECT:
@@ -105,7 +105,7 @@ void Context::setupComm() {
     _comm->setup();
 }
 
-void Context::setupMode(Mode* mode) {
+void Switchboard::setupMode(Mode* mode) {
     if (mode == NULL) {
         switch (CONFIG[CONFIG_MODE].value()) {
             case MODE_ON_AIR:
