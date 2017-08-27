@@ -107,12 +107,13 @@ void Switchboard::setupMode(Mode* mode) {
 
     delete _mode;
     _mode = mode;
+    _mode->setup();
     selectDisplay1();
-    _mode->initDisplay(_display1);
+    _mode->setupDisplay(_display1);
     _mode->updateDisplay1(_display1);
     _display1.update();
     selectDisplay2();
-    _mode->initDisplay(_display2);
+    _mode->setupDisplay(_display2);
     _mode->updateDisplay2(_display2);
     _display2.update();
 }

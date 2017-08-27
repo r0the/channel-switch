@@ -17,13 +17,12 @@
 
 #include "onair_mode.h"
 
-OnAirMode::OnAirMode() :
-    _displayOnAir(false),
-    _displayDirection(false)
-{
+void OnAirMode::setup() {
+    _displayOnAir = false;
+    _displayDirection = false;
 }
 
-void OnAirMode::initDisplay(SB6432& display) {
+void OnAirMode::setupDisplay(SB6432& display) {
     display.setFontScale(2);
     display.setTextAlign(ALIGN_CENTER);
 }

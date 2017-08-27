@@ -18,12 +18,11 @@
 #include "config_mode.h"
 #include "config.h"
 
-ConfigMode::ConfigMode() :
-    _menuPos(0)
-{
+void ConfigMode::setup() {
+    _menuPos = 0;
 }
 
-void ConfigMode::initDisplay(SB6432& display) {
+void ConfigMode::setupDisplay(SB6432& display) {
     display.setFontScale(1);
     display.setTextAlign(ALIGN_LEFT);
     display.setBacklightColor(255, 255, 255);

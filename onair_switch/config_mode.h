@@ -22,8 +22,8 @@
 
 class ConfigMode : public Mode {
 public:
-    ConfigMode();
-    virtual void initDisplay(SB6432& display);
+    virtual void setup();
+    virtual void setupDisplay(SB6432& display);
     virtual void loop(Switchboard& switchboard);
     virtual void updateDisplay1(SB6432& display);
     virtual void updateDisplay2(SB6432& display);

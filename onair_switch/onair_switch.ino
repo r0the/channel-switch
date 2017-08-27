@@ -20,10 +20,8 @@
 #include "switchboard.h"
 
 // TODO: delay mute display
-// TODO: center text
 
 Behaviour* behaviour;
-
 
 void setup() {
     pinMode(PIN_BOARD_1, INPUT_PULLUP);

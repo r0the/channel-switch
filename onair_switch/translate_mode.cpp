@@ -47,7 +47,10 @@ static uint8_t detectState(Switchboard& switchboard) {
     }
 }
 
-void TranslateMode::initDisplay(SB6432& display) {
+void TranslateMode::setup() {
+}
+
+void TranslateMode::setupDisplay(SB6432& display) {
     display.setFontScale(2);
     display.setTextAlign(ALIGN_CENTER);
 }
