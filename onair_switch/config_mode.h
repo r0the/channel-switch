@@ -22,7 +22,7 @@
 
 class ConfigMode : public Mode {
 public:
-    virtual void setup();
+    ConfigMode();
     virtual void setupDisplay(SB6432& display);
     virtual void loop(Switchboard& switchboard);
     virtual void updateDisplay1(SB6432& display);

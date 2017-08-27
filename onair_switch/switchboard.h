@@ -28,7 +28,6 @@ class Switchboard;
 
 class Mode {
 public:
-    virtual void setup();
     virtual void setupDisplay(SB6432& display) = 0;
     virtual void loop(Switchboard& context) = 0;
     virtual void updateDisplay1(SB6432& display) = 0;
@@ -48,11 +47,12 @@ public:
     inline bool commError() const { return _comm->error(); }
     inline bool display1Dirty() { _display1Dirty = true; }
     inline bool display2Dirty() { _display2Dirty = true; }
+    void freeze();
     void setupComm();
     void setupMode(Mode* mode = NULL);
     inline void setDirection(bool active) { _comm->setDirection(active); }
-    inline void toggleChannel1() { _comm->toggleChannel1(); }
-    inline void toggleChannel2() { _comm->toggleChannel2(); }
+    void toggleChannel1();
+    void toggleChannel2();
     inline void toggleMute() { _comm->toggleMute(); };
 private:
     Buttons _buttons;
@@ -61,6 +61,7 @@ private:
     bool _display1Dirty;
     SB6432 _display2;
     bool _display2Dirty;
+    unsigned long _freezeEnd;
     Mode* _mode;
     void selectDisplay1();
     void selectDisplay2();

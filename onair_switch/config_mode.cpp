@@ -18,8 +18,9 @@
 #include "config_mode.h"
 #include "config.h"
 
-void ConfigMode::setup() {
-    _menuPos = 0;
+ConfigMode::ConfigMode() :
+    _menuPos(0)
+{
 }
 
 void ConfigMode::setupDisplay(SB6432& display) {

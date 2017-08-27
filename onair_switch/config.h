@@ -40,12 +40,42 @@
 
 #define CS_DELAY 1
 #define PULSE_LENGTH_MS 100
+
+// ----------------------------------------------------------------------------
+// switchboard behaviour
+// ----------------------------------------------------------------------------
+
+// The delay in milliseconds both buttons must be pressed until the
+// configuration mode is activated
 #define LONG_PRESS_MS 5000
+
+// The delay in milliseconds the switchboard does not update it's state after
+// it issued a command
+#define COMMAND_FREEZE_MS 200
+
+// ----------------------------------------------------------------------------
+// serial communication configuration
+// ----------------------------------------------------------------------------
+
+// The baud rate of the serial communication
+#define COMM_BAUD_RATE    4800
+
+// The timeout in milliseconds from the last keepalive signal until the
+// switchboard displays a communication error message
+#define COMM_TIMEOUT_MS    1000
+
+// The delay in milliseconds between two keepalive signals transmitted by
+// the base
+#define COMM_KEEPALIVE_MS  100
+
+// ----------------------------------------------------------------------------
+// version information
+// ----------------------------------------------------------------------------
 
 static const char* FIRMWARE_VERSION = "Version 0.4";
 
 // ----------------------------------------------------------------------------
-// Serial commands
+// serial commands
 // ----------------------------------------------------------------------------
 
 #define CMD_TOGGLE_CHANNEL_1 '1'
@@ -84,17 +114,6 @@ static const char* FIRMWARE_VERSION = "Version 0.4";
 // ----------------------------------------------------------------------------
 // configuration of communication mode
 // ----------------------------------------------------------------------------
-
-// The baud rate of the serial communication
-#define COMM_BAUD_RATE    4800
-
-// The timeout in milliseconds from the last keepalive signal until the
-// switchboard displays a communication error message
-#define COMM_TIMEOUT_MS    1000
-
-// The delay in milliseconds between two keepalive signals transmitted by
-// the base
-#define COMM_KEEPALIVE_MS  100
 
 #define COMM_DIRECT 0
 #define COMM_SERIAL 1

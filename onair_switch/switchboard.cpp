@@ -31,6 +31,7 @@ Switchboard::Switchboard() :
     _display1Dirty(false),
     _display2(PIN_CLK, PIN_DATA),
     _display2Dirty(false),
+    _freezeEnd(0),
     _mode(NULL)
 {
 }
@@ -59,8 +60,10 @@ void Switchboard::loop() {
         setupMode(new ConfigMode);
     }
 
-    // program logic
-    _mode->loop(*this);
+    if (_freezeEnd <= millis()) {
+        // program logic
+        _mode->loop(*this);
+    }
 
     if (_display1Dirty) {
         selectDisplay1();
@@ -75,6 +78,10 @@ void Switchboard::loop() {
         _display2.update();
         _display2Dirty = false;
     }
+}
+
+void Switchboard::freeze() {
+    _freezeEnd = millis() + COMMAND_FREEZE_MS;
 }
 
 void Switchboard::setupComm() {
@@ -107,7 +114,6 @@ void Switchboard::setupMode(Mode* mode) {
 
     delete _mode;
     _mode = mode;
-    _mode->setup();
     selectDisplay1();
     _mode->setupDisplay(_display1);
     _mode->updateDisplay1(_display1);
@@ -116,6 +122,16 @@ void Switchboard::setupMode(Mode* mode) {
     _mode->setupDisplay(_display2);
     _mode->updateDisplay2(_display2);
     _display2.update();
+}
+
+void Switchboard::toggleChannel1() {
+    _comm->toggleChannel1();
+    _freezeEnd = millis() + COMMAND_FREEZE_MS;
+}
+
+void Switchboard::toggleChannel2() {
+    _comm->toggleChannel2();
+    _freezeEnd = millis() + COMMAND_FREEZE_MS;
 }
 
 void Switchboard::selectDisplay1() {

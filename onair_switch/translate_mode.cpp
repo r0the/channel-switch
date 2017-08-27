@@ -18,20 +18,20 @@
 #include "translate_mode.h"
 #include "config.h"
 
-#define STATE_MUTE       0
-#define STATE_LANGUAGE_1 1
-#define STATE_LANGUAGE_2 2
-#define STATE_ERROR      3
-#define STATE_COMM_ERROR 4
+#define STATE_MUTE          0
+#define STATE_LANGUAGE_1    1
+#define STATE_LANGUAGE_2    2
+#define STATE_CHANNEL_ERROR 3
+#define STATE_COMM_ERROR    4
 
-static uint8_t detectState(Switchboard& switchboard) {
+static uint8_t determineState(Switchboard& switchboard) {
     if (switchboard.commError()) {
         return STATE_COMM_ERROR;
     }
 
     if (switchboard.channel1()) {
         if (switchboard.channel2()) {
-            return STATE_ERROR;
+            return STATE_CHANNEL_ERROR;
         }
         else {
             return STATE_LANGUAGE_1;
@@ -47,9 +47,6 @@ static uint8_t detectState(Switchboard& switchboard) {
     }
 }
 
-void TranslateMode::setup() {
-}
-
 void TranslateMode::setupDisplay(SB6432& display) {
     display.setFontScale(2);
     display.setTextAlign(ALIGN_CENTER);
@@ -58,9 +55,9 @@ void TranslateMode::setupDisplay(SB6432& display) {
 void TranslateMode::loop(Switchboard& switchboard) {
     bool lastLanguage1 = _language1;
     uint8_t lastState = _state;
-    _state = detectState(switchboard);
+    _state = determineState(switchboard);
     switch (_state) {
-        case STATE_ERROR:
+        case STATE_CHANNEL_ERROR:
             switchboard.toggleChannel2();
             break;
         case STATE_LANGUAGE_1:
@@ -102,8 +99,8 @@ void TranslateMode::loop(Switchboard& switchboard) {
 
 void TranslateMode::updateDisplay1(SB6432& display) {
     display.fill(MODE_CLEAR);
-    if (_state == STATE_ERROR) {
-        display.write(31, 23, "Error");
+    if (_state == STATE_CHANNEL_ERROR) {
+        display.write(31, 23, "Both");
         display.setBacklightColor(255, 0, 0);
         return;
     }
@@ -141,8 +138,8 @@ void TranslateMode::updateDisplay1(SB6432& display) {
 
 void TranslateMode::updateDisplay2(SB6432& display) {
     display.fill(MODE_CLEAR);
-    if (_state == STATE_ERROR) {
-        display.write(31, 23, "Error");
+    if (_state == STATE_CHANNEL_ERROR) {
+        display.write(31, 23, "Open");
         display.setBacklightColor(255, 0, 0);
         return;
     }

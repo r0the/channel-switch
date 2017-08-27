@@ -22,16 +22,14 @@
 
 class OnAirMode : public Mode {
 public:
-    virtual void setup();
     virtual void setupDisplay(SB6432& display);
     virtual void loop(Switchboard& switchboard);
     virtual void updateDisplay1(SB6432& display);
     virtual void updateDisplay2(SB6432& display);
 private:
-    bool _displayCommError;
-    bool _displayOnAir;
-    bool _displayDirection;
-    bool _onAirBeforeDirection;
+    unsigned long _freezeEnd;
+    bool _onAir;
+    uint8_t _state;
 };
 
 #endif
