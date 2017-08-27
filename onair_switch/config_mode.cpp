@@ -23,13 +23,7 @@ ConfigMode::ConfigMode() :
 {
 }
 
-void ConfigMode::initDisplay1(SB6432& display) {
-    display.setFontScale(1);
-    display.setTextAlign(ALIGN_LEFT);
-    display.setBacklightColor(255, 255, 255);
-}
-
-void ConfigMode::initDisplay2(SB6432& display) {
+void ConfigMode::initDisplay(SB6432& display) {
     display.setFontScale(1);
     display.setTextAlign(ALIGN_LEFT);
     display.setBacklightColor(255, 255, 255);

@@ -28,8 +28,7 @@ class Switchboard;
 
 class Mode {
 public:
-    virtual void initDisplay1(SB6432& display) = 0;
-    virtual void initDisplay2(SB6432& display) = 0;
+    virtual void initDisplay(SB6432& display) = 0;
     virtual void loop(Switchboard& context) = 0;
     virtual void updateDisplay1(SB6432& display) = 0;
     virtual void updateDisplay2(SB6432& display) = 0;

@@ -77,18 +77,6 @@ void Switchboard::loop() {
     }
 }
 
-void Switchboard::selectDisplay1() {
-    delay(CS_DELAY);
-    digitalWrite(PIN_CS, LOW);
-    delay(CS_DELAY);
-}
-
-void Switchboard::selectDisplay2() {
-    delay(CS_DELAY);
-    digitalWrite(PIN_CS, HIGH);
-    delay(CS_DELAY);
-}
-
 void Switchboard::setupComm() {
     Comm* comm = NULL;
     switch (CONFIG[CONFIG_COMM].value()) {
@@ -120,12 +108,24 @@ void Switchboard::setupMode(Mode* mode) {
     delete _mode;
     _mode = mode;
     selectDisplay1();
-    _mode->initDisplay1(_display1);
+    _mode->initDisplay(_display1);
     _mode->updateDisplay1(_display1);
     _display1.update();
     selectDisplay2();
-    _mode->initDisplay2(_display2);
+    _mode->initDisplay(_display2);
     _mode->updateDisplay2(_display2);
     _display2.update();
+}
+
+void Switchboard::selectDisplay1() {
+    delay(CS_DELAY);
+    digitalWrite(PIN_CS, LOW);
+    delay(CS_DELAY);
+}
+
+void Switchboard::selectDisplay2() {
+    delay(CS_DELAY);
+    digitalWrite(PIN_CS, HIGH);
+    delay(CS_DELAY);
 }
 

@@ -23,12 +23,7 @@ OnAirMode::OnAirMode() :
 {
 }
 
-void OnAirMode::initDisplay1(SB6432& display) {
-    display.setFontScale(2);
-    display.setTextAlign(ALIGN_CENTER);
-}
-
-void OnAirMode::initDisplay2(SB6432& display) {
+void OnAirMode::initDisplay(SB6432& display) {
     display.setFontScale(2);
     display.setTextAlign(ALIGN_CENTER);
 }

@@ -23,8 +23,7 @@
 class ConfigMode : public Mode {
 public:
     ConfigMode();
-    virtual void initDisplay1(SB6432& display);
-    virtual void initDisplay2(SB6432& display);
+    virtual void initDisplay(SB6432& display);
     virtual void loop(Switchboard& switchboard);
     virtual void updateDisplay1(SB6432& display);
     virtual void updateDisplay2(SB6432& display);
