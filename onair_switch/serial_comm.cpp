@@ -34,7 +34,7 @@ void SerialComm::loop() {
         _lastSignal = now;
     }
 
-    _error = now - _lastSignal > COMM_TIMEOUT;
+    _error = now - _lastSignal > COMM_TIMEOUT_MS;
 }
 
 bool SerialComm::channel1() const {

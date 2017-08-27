@@ -85,8 +85,15 @@ static const char* FIRMWARE_VERSION = "Version 0.4";
 // configuration of communication mode
 // ----------------------------------------------------------------------------
 
+// The baud rate of the serial communication
 #define COMM_BAUD_RATE    4800
-#define COMM_TIMEOUT      1000
+
+// The timeout in milliseconds from the last keepalive signal until the
+// switchboard displays a communication error message
+#define COMM_TIMEOUT_MS    1000
+
+// The delay in milliseconds between two keepalive signals transmitted by
+// the base
 #define COMM_KEEPALIVE_MS  100
 
 #define COMM_DIRECT 0
