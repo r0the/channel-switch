@@ -22,21 +22,9 @@
 #include <sb6432.h>
 #include "behaviour.h"
 #include "buttons.h"
+#include "comm.h"
 
 class Switchboard;
-
-class Comm {
-public:
-    virtual void setup() = 0;
-    virtual void loop() = 0;
-    virtual bool channel1() const = 0;
-    virtual bool channel2() const = 0;
-    virtual bool error() const = 0;
-    virtual void setDirection(bool active) = 0;
-    virtual void toggleChannel1() = 0;
-    virtual void toggleChannel2() = 0;
-    virtual void toggleMute() = 0;
-};
 
 class Mode {
 public:

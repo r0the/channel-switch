@@ -18,17 +18,6 @@
 #include "serial_comm.h"
 #include "config.h"
 
-static uint8_t activeTally() {
-    switch (CONFIG.tally()) {
-        case TALLY_ACTIVE_LOW:
-            return LOW;
-        case TALLY_ACTIVE_HIGH:
-            return HIGH;
-        default:
-            return HIGH;
-    }
-}
-
 void SerialComm::setup() {
     Serial1.begin(COMM_BAUD_RATE);
     _channel1 = false;

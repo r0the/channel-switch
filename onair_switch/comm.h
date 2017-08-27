@@ -14,28 +14,21 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-#ifndef SERIAL_COMM_H
-#define SERIAL_COMM_H
-
-#include "comm.h"
-
-class SerialComm : public Comm {
+ 
+#ifndef COMM_H
+#define COMM_H
+ 
+class Comm {
 public:
-    virtual void setup();
-    virtual void loop();
-    virtual bool channel1() const;
-    virtual bool channel2() const;
-    virtual bool error() const;
-    virtual void setDirection(bool active);
-    virtual void toggleChannel1();
-    virtual void toggleChannel2();
-    virtual void toggleMute();
-private:
-    bool _channel1;
-    bool _channel2;
-    bool _error;
-    unsigned long _lastSignal;
+    virtual void setup() = 0;
+    virtual void loop() = 0;
+    virtual bool channel1() const = 0;
+    virtual bool channel2() const = 0;
+    virtual bool error() const = 0;
+    virtual void setDirection(bool active) = 0;
+    virtual void toggleChannel1() = 0;
+    virtual void toggleChannel2() = 0;
+    virtual void toggleMute() = 0;
 };
 
 #endif
