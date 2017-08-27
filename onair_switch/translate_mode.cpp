@@ -71,11 +71,6 @@ void TranslateMode::loop(Switchboard& switchboard) {
             break;
     }
 
-    if (_state == STATE_ERROR) {
-        switchboard.toggleChannel2();
-        return;
-    }
-
     // if button 1 has gone down, change language
     if (switchboard.button1Down()) {
         if (_state == STATE_MUTE) {
