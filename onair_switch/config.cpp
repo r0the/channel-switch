@@ -27,6 +27,16 @@ const char* LANGUAGE_NAMES[LANGUAGE_COUNT] = {"DEU", "FRA", "ITA", "ENG"};
 const char* TALLY_NAMES[TALLY_COUNT] = {"LOW", "HIGH"};
 const char* COMM_NAMES[COMM_COUNT] = {"Direct", "Serial"};
 
+bool checkHeader() {
+    char magic1 = Serial1.read();
+    char magic2 = Serial1.read();
+    return magic1 == COMM_MAGIC_1 && magic2 == COMM_MAGIC_2;
+}
+void writeHeader() {
+    Serial1.write(COMM_MAGIC_1);
+    Serial1.write(COMM_MAGIC_2);
+}
+
 ConfigItem::ConfigItem(uint8_t address, const char* title, uint8_t maxValue, const char** names) :
     _address(address),
     _maxValue(maxValue),

@@ -19,11 +19,13 @@
 #include "config.h"
 #include "switchboard.h"
 
-// TODO: delay mute display
-
 Behaviour* behaviour;
 
 void setup() {
+//    Serial.begin(9600);
+//    while (!Serial) { delay(1); }
+//    Serial.println("Debugging");
+    
     pinMode(PIN_BOARD_1, INPUT_PULLUP);
     pinMode(PIN_BOARD_2, INPUT_PULLUP);
     delay(100);

@@ -57,6 +57,9 @@
 // serial communication configuration
 // ----------------------------------------------------------------------------
 
+#define COMM_MAGIC_1 'S'
+#define COMM_MAGIC_2 'r'
+
 // The baud rate of the serial communication
 #define COMM_BAUD_RATE    4800
 
@@ -67,6 +70,9 @@
 // The delay in milliseconds between two keepalive signals transmitted by
 // the base
 #define COMM_KEEPALIVE_MS  100
+
+bool checkHeader();
+void writeHeader();
 
 // ----------------------------------------------------------------------------
 // version information

@@ -28,24 +28,26 @@ void Base::setup() {
 void Base::loop() {
     _comm.loop();
     unsigned long now = millis();
-    if (Serial1.available()) {
-        char cmd = Serial1.read();
-        switch (cmd) {
-            case CMD_TOGGLE_CHANNEL_1:
-                _comm.toggleChannel1();
-                break;
-            case CMD_TOGGLE_CHANNEL_2:
-                _comm.toggleChannel2();
-                break;
-            case CMD_TOGGLE_MUTE:
-                _comm.toggleMute();
-                break;
-            case CMD_DIRECTION_ENABLE:
-                _comm.setDirection(true);
-                break;
-            case CMD_DIRECTION_DISABLE:
-                _comm.setDirection(false);
-                break;
+    if (Serial1.available() >= 3) {
+        if (checkHeader()) {
+            char cmd = Serial1.read();
+            switch (cmd) {
+                case CMD_TOGGLE_CHANNEL_1:
+                    _comm.toggleChannel1();
+                    break;
+                case CMD_TOGGLE_CHANNEL_2:
+                    _comm.toggleChannel2();
+                    break;
+                case CMD_TOGGLE_MUTE:
+                    _comm.toggleMute();
+                    break;
+                case CMD_DIRECTION_ENABLE:
+                    _comm.setDirection(true);
+                    break;
+                case CMD_DIRECTION_DISABLE:
+                    _comm.setDirection(false);
+                    break;
+            }
         }
     }
 
@@ -60,6 +62,7 @@ void Base::loop() {
             data += 2;
         }
 
+        writeHeader();
         Serial1.write(data);
     }
 }

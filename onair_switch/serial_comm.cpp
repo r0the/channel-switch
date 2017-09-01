@@ -27,11 +27,13 @@ void SerialComm::setup() {
 
 void SerialComm::loop() {
     unsigned long now = millis();
-    if (Serial1.available()) {
-        uint8_t state = Serial1.read();
-        _channel1 = state & 0x01;
-        _channel2 = state & 0x02;
-        _lastSignal = now;
+    if (Serial1.available() >= 3) {
+        if (checkHeader()) {
+            uint8_t state = Serial1.read();
+            _channel1 = state & 0x01;
+            _channel2 = state & 0x02;
+            _lastSignal = now;
+        }
     }
 
     _error = now - _lastSignal > COMM_TIMEOUT_MS;
@@ -50,6 +52,7 @@ bool SerialComm::error() const {
 }
 
 void SerialComm::setDirection(bool active) {
+    writeHeader();
     if (active) {
         Serial1.write(CMD_DIRECTION_ENABLE);
     }
@@ -59,14 +62,17 @@ void SerialComm::setDirection(bool active) {
 }
 
 void SerialComm::toggleChannel1() {
+    writeHeader();
     Serial1.write(CMD_TOGGLE_CHANNEL_1);
 }
 
 void SerialComm::toggleChannel2() {
+    writeHeader();
     Serial1.write(CMD_TOGGLE_CHANNEL_2);
 }
 
 void SerialComm::toggleMute() {
+    writeHeader();
     Serial1.write(CMD_TOGGLE_MUTE);
 }
 
