@@ -23,28 +23,28 @@ Die Eingänge sind aktiv hoch. Sie sind mit einem Pullup-Widerstand geschaltet, 
 
 ## Pinbelegung
 
-| MKR | Projekt    | Typ            | Gerät        | Funktion                               | Aktiv          |
-|:--- |:---------- |:-------------- |:------------ |:-------------------------------------- |:-------------- |
-| A0  | DEV1       | Digital Input  | HW-Switch    | Identifikation des Gerätetyps          | HIGH           |
-| A1  | DEV2       | Digital Input  | HW-Switch    | Identifikation des Gerätetyps          | HIGH           |
-| A2  | TY1        | Digital Input  | Mischpult    | Kanal 1 aktiv (On Air / Sprache 1)     | konfigurierbar |
-| A3  | TY2        | Digital Input  | Mischpult    | Kanal 2 aktiv (Sprache 2)              | konfigurierbar |
-| A4  | OLED_RESET | Digital Output | OLED         | Reset                                  | LOW            |
-| A5  | OLED_CMD   | Digital Output | OLED         | Command Mode                           | LOW            |
-| A6  |            | -              | -            | -                                      | -              |
-| 0   | BTN1       | Digital Input  | Taste 1      | Taste 1 gedrückt                       | LOW            |
-| 1   | BTN2       | Digital Input  | Taste 2      | Taste 2 gedrückt                       | LOW            |
-| 2   | RQ1        | Digital Output | Mischpult    | Kanal 1 wechseln (On Air / Sprache 1)  | HIGH           |
-| 3   | RQ2        | Digital Output | Mischpult    | Kanal 2 wechseln (On Air / Sprache 1)  | HIGH           |
-| 4   | DIR        | Digital Output | Tellix Regie | Anfrage Kanal Regie                    | HIGH           |
-| 5   | MUTE       | Digital Output | ?            | Benachrichtigung Stummschaltung        | HIGH           |
-| 6   | OLED_CS1   | Digital Output | OLED         | Chip Select OLED links                 | LOW            |
-| 7   | OLED_CS2   | Digital Output | OLED         | Chip Select OLED rechts                | LOW            |
-| 8   | MOSI       | Digital Output | SPI          | SPI MOSI                               | -              |
-| 9   | SCK        | Digital Output | SPI          | SPI Clock                              | -              |
-| 10  | MISO       | Digital Input  | SPI          | SPI MISO                               | -              |
-| 11  | SDA        | -              | I2C          | I2C Data                               | -              |
-| 12  | SCL        | -              | I2C          | I2C Clock                              | -              |
+| MKR | Bezeichnung | Typ         | Gerät        | Funktion                                 | Aktiv          |
+|:--- |:----------- |:----------- |:------------ |:---------------------------------------- |:-------------- |
+| A0  | DEV1        | Digital in  | HW-Switch    | Identifikation des Gerätetyps            | HIGH           |
+| A1  | DEV2        | Digital in  | HW-Switch    | Identifikation des Gerätetyps            | HIGH           |
+| A2  | TY1         | Digital in  | Mischpult    | Kanal 1 offen (On Air / Sprache 1)       | konfigurierbar |
+| A3  | TY2         | Digital in  | Mischpult    | Kanal 2 offen (Sprache 2)                | konfigurierbar |
+| A4  | OLED_RESET  | Digital out | OLED         | Reset                                    | LOW            |
+| A5  | OLED_CMD    | Digital out | OLED         | Command Mode                             | LOW            |
+| A6  |             | -           | -            | -                                        | -              |
+| 0   | BTN1        | Digital in  | Taste 1      | Taste 1 gedrückt                         | LOW            |
+| 1   | BTN2        | Digital in  | Taste 2      | Taste 2 gedrückt                         | LOW            |
+| 2   | RQ1         | Digital out | Mischpult    | Anforderung Kanal 1 (On Air / Sprache 1) | HIGH           |
+| 3   | RQ2         | Digital out | Mischpult    | Anforderung Kanal 2 (On Air / Sprache 1) | HIGH           |
+| 4   | DIR         | Digital out | Tellix Regie | Anfrage Kanal Regie                      | HIGH           |
+| 5   | MUTE        | Digital out | ?            | Benachrichtigung Stummschaltung          | HIGH           |
+| 6   | OLED_CS1    | Digital out | OLED         | Chip Select OLED links                   | LOW            |
+| 7   | OLED_CS2    | Digital out | OLED         | Chip Select OLED rechts                  | LOW            |
+| 8   | MOSI        | Digital out | SPI          | SPI Daten                                | -              |
+| 9   | SCK         | Digital out | SPI          | SPI Takt                                 | -              |
+| 10  | MISO        | Digital in  | SPI          | SPI Daten                                | -              |
+| 11  | SDA         | -           | I2C          | I2C Daten                                | -              |
+| 12  | SCL         | -           | I2C          | I2C Takt                                 | -              |
 
 
 ## Betriebsmodus On Air
@@ -114,21 +114,3 @@ Ausgänge:
 Eingänge:
 - (Tally 1): HIGH, wenn Kanal Sprache 1 offen
 - (Tally 2): HIGH, wenn Kanal Sprache 2 offen
-
-
-## Pinbelegung
-
-| Pin | I/O | Abk. | Bezeichnung         | Beschreibung                      |
-|-----|-----|------|---------------------|-----------------------------------|
-|  2  | OUT | RQ1  | Request Channel 1   | Ausgang Anforderungs-Puls Kanal 1 |
-|  3  | OUT | RQ2  | Request Channel 2   | Ausgang Anforderungs-Puls Kanal 2 |
-|  5  | OUT | MUTE | Mute                | Ausgang Mute                      |
-|  6  | OUT | DIR  | Direction           | Ausgang Regie                     |
-| 14  | OUT | DATA | Display Data        | Ausgang Datenlinie für Anzeigen   |
-| 15  | OUT | CS   | Display Chip Select | Ausgang Auswahl der Anzeige       |
-| 16  | OUT | CLK  | Display Clock       | Ausgang Datentakt für Anzeigen    |
-| 18  | IN  | TY1  | Tally Channel 1     | Eingang Bestätigung Kanal 1 offen |
-| 19  | IN  | TY2  | Tally Channel 2     | Eingang Bestätigung Kanal 2 offen |
-| 20  | IN  | PRG  | Programming Mode    | Eingang Programmiermodus          |
-| 22  | IN  | BTN2 | Button 2            | Eingang rechte Taste              |
-| 23  | IN  | BTN1 | Button 1            | Eingang linke Taste               |
