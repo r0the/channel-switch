@@ -1,29 +1,53 @@
-# On-Air/Off-Air Switch
+# Channel Switch
 
 ## Voraussetzungen
 
-Die On-Air/Off-Air Switch Arduino-Software ist für den Einsatz auf einem [Adafruit Feather 32u4 RFM95 LoRa Radio](https://www.adafruit.com/product/3078)
-Board vorgesehen. Um das Programm zu kompilieren, ist folgende Umgebung nötig:
+Die Channel Switch Arduino-Software ist für den Einsatz auf einem [Arduino MKR-1000](https://store.arduino.cc/arduino-mkr1000) vorgesehen. Um das Programm zu kompilieren, ist folgende Umgebung nötig:
 
 * Arduino IDE 1.8 oder neuer
-* Adafruit AVR Boards für Arduino IDE (Installation mit Boards Manager)
+* Arduino SAMD Boards (32-bits ARM Cortex-M0+)
 * [MonoGFX-Arduino library](https://github.com/r0the/monogfx-arduino)
 
 ## Gerätekonfiguration
 
-Für die verschiedenen Geräte des On-Air/Off-Air Switch wird die gleiche Arduino-Software verwendet. Der Betriebsmodus
-wird über die Eingänge A2 und A3 des Adafruit Feather festgelegt.
+Für die verschiedenen Geräte des Channel Switch wird die gleiche Arduino-Software verwendet. Der Betriebsmodus wird über die Eingänge A0 und A1 des Arduino festgelegt.
 
-| A2  | A3  | Gerät                                      |
+| A1  | A0  | Gerät                                      |
 |:--- |:--- |:------------------------------------------ |
-| 0 V | 0 V | mobiles Switchboard mit LoRa-Kommunikation |
-| 0 V | 5 V | Adapter LoRa-zu Audio-FSK-Kommunikation    |
-| 5 V | 0 V | Switchboard mit Audio-FSK-Kommunikation    |
-| 5 V | 5 V | Basisstation für Audio-FSK-Kommunikation   |
+| 0   | 0   | Switchboard mit Audio-FSK-Kommunikation    |
+| 0   | 1   | Basisstation für Audio-FSK-Kommunikation   |
+| 1   | 0   | mobiles Switchboard mit LoRa-Kommunikation |
+| 1   | 1   | Adapter LoRa-zu Audio-FSK-Kommunikation    |
 
-Die Eingänge A2 und A3 sind mit einem Pullup-Widerstand geschaltet, per Default wird also immer die Option mit 5 V gewählt.
+Die Eingänge sind aktiv hoch. Sie sind mit einem Pullup-Widerstand geschaltet, standardmässig wird also immer die Option «Basisstation» gewählt.
 
-## Betriebsmodus On-Air/Off-Air
+## Pinbelegung
+
+| MKR | Projekt    | Typ            | Gerät        | Funktion                               | Aktiv          |
+|:--- |:---------- |:-------------- |:------------ |:-------------------------------------- |:-------------- |
+| A0  | DEV1       | Digital Input  | HW-Switch    | Identifikation des Gerätetyps          | HIGH           |
+| A1  | DEV2       | Digital Input  | HW-Switch    | Identifikation des Gerätetyps          | HIGH           |
+| A2  | TY1        | Digital Input  | Mischpult    | Kanal 1 aktiv (On Air / Sprache 1)     | konfigurierbar |
+| A3  | TY2        | Digital Input  | Mischpult    | Kanal 2 aktiv (Sprache 2)              | konfigurierbar |
+| A4  | OLED_RESET | Digital Output | OLED         | Reset                                  | LOW            |
+| A5  | OLED_CMD   | Digital Output | OLED         | Command Mode                           | LOW            |
+| A6  |            | -              | -            | -                                      | -              |
+| 0   | BTN1       | Digital Input  | Taste 1      | Taste 1 gedrückt                       | LOW            |
+| 1   | BTN2       | Digital Input  | Taste 2      | Taste 2 gedrückt                       | LOW            |
+| 2   | RQ1        | Digital Output | Mischpult    | Kanal 1 wechseln (On Air / Sprache 1)  | HIGH           |
+| 3   | RQ2        | Digital Output | Mischpult    | Kanal 2 wechseln (On Air / Sprache 1)  | HIGH           |
+| 4   | DIR        | Digital Output | Tellix Regie | Anfrage Kanal Regie                    | HIGH           |
+| 5   | MUTE       | Digital Output | ?            | Benachrichtigung Stummschaltung        | HIGH           |
+| 6   | OLED_CS1   | Digital Output | OLED         | Chip Select OLED links                 | LOW            |
+| 7   | OLED_CS2   | Digital Output | OLED         | Chip Select OLED rechts                | LOW            |
+| 8   | MOSI       | Digital Output | SPI          | SPI MOSI                               | -              |
+| 9   | SCK        | Digital Output | SPI          | SPI Clock                              | -              |
+| 10  | MISO       | Digital Input  | SPI          | SPI MISO                               | -              |
+| 11  | SDA        | -              | I2C          | I2C Data                               | -              |
+| 12  | SCL        | -              | I2C          | I2C Clock                              | -              |
+
+
+## Betriebsmodus On Air
 
 In diesem Modus kann mit der linken Taste das Mikrofon auf Sendung geschaltet werden. Mit der rechten Taste kann eine Sprechverbindung zur Regie aufgebaut werden.
 
@@ -65,6 +89,8 @@ Wenn die rechte Taste losgelassen wird und das *FLAG* gesetzt ist, wird der Kana
 | *       | Falling | H       | *     | L      | L     | Regie fehlgeschlagen      |
 
 ## Betriebsmodus Konfiguration
+
+Um in den Konfigurationsmodus zu gelangen, müssen beide Tasten gleichzeitig mindestens fünf Sekunden lang gedrückt werden.
 
 ## Betriebsmodus Übersetzung
 

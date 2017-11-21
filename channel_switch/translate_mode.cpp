@@ -47,7 +47,7 @@ static uint8_t determineState(Switchboard& switchboard) {
     }
 }
 
-void TranslateMode::setupDisplay(SB6432& display) {
+void TranslateMode::setupDisplay(MonoGfx& display) {
     display.setFontScale(2);
     display.setTextAlign(ALIGN_CENTER);
 }
@@ -97,17 +97,18 @@ void TranslateMode::loop(Switchboard& switchboard) {
     }
 }
 
-void TranslateMode::updateDisplay1(SB6432& display) {
-    display.fill(MODE_CLEAR);
+void TranslateMode::updateDisplay1(MonoGfx& display) {
     if (_state == STATE_CHANNEL_ERROR) {
+        display.setBackgroundColor(255, 0, 0);
+        display.fill(MODE_CLEAR);
         display.write(31, 23, "Both");
-        display.setBacklightColor(255, 0, 0);
         return;
     }
 
     if (_state == STATE_COMM_ERROR) {
+        display.setBackgroundColor(255, 0, 0);
+        display.fill(MODE_CLEAR);
         display.write(31, 23, "Comm");
-        display.setBacklightColor(255, 0, 0);
         return;
     }
 
@@ -117,47 +118,57 @@ void TranslateMode::updateDisplay1(SB6432& display) {
     }
 
     if (_language1) {
-        display.write(31, 23, CONFIG[CONFIG_LANGUAGE_1].name());
         if (_state == STATE_MUTE) {
-            display.setBacklightColor(0, 50, 0);                
+            display.setBackgroundColor(0, 50, 0);                
+            display.fill(MODE_CLEAR);
         }
         else {
-            display.setBacklightColor(0, 255, 0);
+            display.setBackgroundColor(0, 255, 0);
+            display.fill(MODE_CLEAR);
         }
+
+        display.write(31, 23, CONFIG[CONFIG_LANGUAGE_1].name());
     }
     else {
-        display.write(31, 23, CONFIG[CONFIG_LANGUAGE_2].name());
         if (_state == STATE_MUTE) {
-            display.setBacklightColor(0, 0, 50);                
+            display.setBackgroundColor(0, 0, 50);                
+            display.fill(MODE_CLEAR);
         }
         else {
-            display.setBacklightColor(0, 0, 255);
+            display.setBackgroundColor(0, 0, 255);
+            display.fill(MODE_CLEAR);
         }
+
+        display.write(31, 23, CONFIG[CONFIG_LANGUAGE_2].name());
     }
 }
 
-void TranslateMode::updateDisplay2(SB6432& display) {
+void TranslateMode::updateDisplay2(MonoGfx& display) {
     display.fill(MODE_CLEAR);
     if (_state == STATE_CHANNEL_ERROR) {
+        display.setBackgroundColor(255, 0, 0);
+        display.fill(MODE_CLEAR);
         display.write(31, 23, "Open");
-        display.setBacklightColor(255, 0, 0);
         return;
     }
 
     if (_state == STATE_COMM_ERROR) {
+        display.setBackgroundColor(255, 0, 0);
+        display.fill(MODE_CLEAR);
         display.write(31, 23, "Error");
-        display.setBacklightColor(255, 0, 0);
         return;
     }
 
     display.write(31, 23, "MUTE");
     if (_state == STATE_MUTE) {
+        display.setBackgroundColor(255, 255, 255);
+        display.fill(MODE_CLEAR);
         display.fillRect(0, 0, 63, 5, MODE_SET);
         display.fillRect(0, 26, 63, 5, MODE_SET);
-        display.setBacklightColor(255, 255, 255);
     }
     else {
-        display.setBacklightColor(50, 50, 50);
+        display.setBackgroundColor(50, 50, 50);
+        display.fill(MODE_CLEAR);
     }
 }
 

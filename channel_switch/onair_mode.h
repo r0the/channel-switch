@@ -22,10 +22,10 @@
 
 class OnAirMode : public Mode {
 public:
-    virtual void setupDisplay(SB6432& display);
+    virtual void setupDisplay(MonoGfx& display);
     virtual void loop(Switchboard& switchboard);
-    virtual void updateDisplay1(SB6432& display);
-    virtual void updateDisplay2(SB6432& display);
+    virtual void updateDisplay1(MonoGfx& display);
+    virtual void updateDisplay2(MonoGfx& display);
 private:
     unsigned long _freezeEnd;
     bool _onAir;

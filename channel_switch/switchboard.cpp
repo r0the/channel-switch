@@ -27,9 +27,9 @@
 
 Switchboard::Switchboard() :
     _comm(NULL),
-    _display1(PIN_CLK, PIN_DATA),
+    _display1(PIN_OLED_CS1, PIN_OLED_RESET, PIN_OLED_CMD),
     _display1Dirty(false),
-    _display2(PIN_CLK, PIN_DATA),
+    _display2(PIN_OLED_CS2, PIN_OLED_RESET, PIN_OLED_CMD),
     _display2Dirty(false),
     _freezeEnd(0),
     _mode(NULL)
@@ -38,7 +38,6 @@ Switchboard::Switchboard() :
 
 void Switchboard::setup() {
     _buttons.setup();
-    pinMode(PIN_CS, OUTPUT);
 
     // init display 1
     selectDisplay1();
@@ -135,14 +134,8 @@ void Switchboard::toggleChannel2() {
 }
 
 void Switchboard::selectDisplay1() {
-    delay(CS_DELAY);
-    digitalWrite(PIN_CS, LOW);
-    delay(CS_DELAY);
 }
 
 void Switchboard::selectDisplay2() {
-    delay(CS_DELAY);
-    digitalWrite(PIN_CS, HIGH);
-    delay(CS_DELAY);
 }
 

@@ -41,7 +41,7 @@ static uint8_t determineState(Switchboard& switchboard) {
     }
 }
 
-void OnAirMode::setupDisplay(SB6432& display) {
+void OnAirMode::setupDisplay(MonoGfx& display) {
     display.setFontScale(2);
     display.setTextAlign(ALIGN_CENTER);
 }
@@ -82,41 +82,46 @@ void OnAirMode::loop(Switchboard& switchboard) {
     }
 }
 
-void OnAirMode::updateDisplay1(SB6432& display) {
-    display.fill(MODE_CLEAR);
+void OnAirMode::updateDisplay1(MonoGfx& display) {
     if (_state == STATE_COMM_ERROR) {
+        display.setBackgroundColor(255, 0, 0);
+        display.fill(MODE_CLEAR);
         display.write(31, 23, "Comm");
-        display.setBacklightColor(255, 0, 0);
         return;
     }
 
     if (_state == STATE_ON_AIR) {
+        display.setBackgroundColor(255, 0, 0);
+        display.fill(MODE_CLEAR);
         display.fillRect(0, 0, 63, 5, MODE_SET);
         display.fillRect(0, 26, 63, 5, MODE_SET);
         display.write(31, 23, "ON AIR");
-        display.setBacklightColor(255, 0, 0);
     }
     else {
-        display.setBacklightColor(50, 50, 50);
+        display.setBackgroundColor(50, 50, 50);
+        display.fill(MODE_CLEAR);
         display.write(33, 23, "OFFAIR");
     }
 }
 
-void OnAirMode::updateDisplay2(SB6432& display) {
+void OnAirMode::updateDisplay2(MonoGfx& display) {
     display.fill(MODE_CLEAR);
     if (_state == STATE_COMM_ERROR) {
+        display.setBackgroundColor(255, 0, 0);
+        display.fill(MODE_CLEAR);
         display.write(31, 23, "Error");
-        display.setBacklightColor(255, 0, 0);
         return;
     }
 
     if (_state == STATE_DIRECTION) {
+        display.setBackgroundColor(0, 0, 255);
+        display.fill(MODE_CLEAR);
         display.fillRect(0, 0, 63, 5, MODE_SET);
         display.fillRect(0, 26, 63, 5, MODE_SET);
-        display.setBacklightColor(0, 0, 255);
     }
     else {
-        display.setBacklightColor(0, 0, 50);
+        display.setBackgroundColor(0, 0, 50);
+        display.fill(MODE_CLEAR);
     }
 
     display.write(31, 23, "REGIE");

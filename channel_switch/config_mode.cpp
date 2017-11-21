@@ -23,10 +23,11 @@ ConfigMode::ConfigMode() :
 {
 }
 
-void ConfigMode::setupDisplay(SB6432& display) {
+void ConfigMode::setupDisplay(MonoGfx& display) {
     display.setFontScale(1);
     display.setTextAlign(ALIGN_LEFT);
-    display.setBacklightColor(255, 255, 255);
+    display.setForegroundColor(255, 255, 255);
+    display.setBackgroundColor(0, 0, 0);
 }
 
 void ConfigMode::loop(Switchboard& switchboard) {
@@ -49,25 +50,25 @@ void ConfigMode::loop(Switchboard& switchboard) {
     }
 }
 
-void ConfigMode::updateDisplay1(SB6432& display) {
+void ConfigMode::updateDisplay1(MonoGfx& display) {
     display.fill(MODE_CLEAR);
     display.write(0, 8, "Config Menu");
     if (_menuPos == CONFIG_COUNT) {
-        display.write(0, 31, "Exit");
+        display.write(0, 61, "Exit");
     }
     else {
-        display.write(0, 31, CONFIG[_menuPos].title());
+        display.write(0, 61, CONFIG[_menuPos].title());
     }
 }
 
-void ConfigMode::updateDisplay2(SB6432& display) {
+void ConfigMode::updateDisplay2(MonoGfx& display) {
     display.fill(MODE_CLEAR);
     display.write(0, 8, FIRMWARE_VERSION);
     if (_menuPos == CONFIG_COUNT) {
-        display.write(0, 31, "Confirm");
+        display.write(0, 61, "Confirm");
     }
     else {
-        display.write(0, 31, CONFIG[_menuPos].name());
+        display.write(0, 61, CONFIG[_menuPos].name());
     }
 }
 

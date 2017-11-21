@@ -15,31 +15,21 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "base.h"
-#include "config.h"
+#ifndef TRANSLATE_MODE_H
+#define TRANSLATE_MODE_H
+
 #include "switchboard.h"
 
-Behaviour* behaviour;
+class TranslateMode : public Mode {
+public:
+    virtual void setupDisplay(MonoGfx& display);
+    virtual void loop(Switchboard& switchboard);
+    virtual void updateDisplay1(MonoGfx& display);
+    virtual void updateDisplay2(MonoGfx& display);
+private:
+    bool _language1;
+    uint8_t _state;
+};
 
-void setup() {
-//    Serial.begin(9600);
-//    while (!Serial) { delay(1); }
-//    Serial.println("Debugging");
-    
-    pinMode(PIN_BOARD_1, INPUT_PULLUP);
-    pinMode(PIN_BOARD_2, INPUT_PULLUP);
-    delay(100);
-    if (digitalRead(PIN_BOARD_1) == HIGH) {
-        behaviour = new Base;
-    }
-    else {
-        behaviour = new Switchboard;
-    }
-
-    behaviour->setup();
-}
-
-void loop() {
-    behaviour->loop();
-}
+#endif
 

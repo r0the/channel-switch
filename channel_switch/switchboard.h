@@ -19,7 +19,7 @@
 #define CONTEXT_H
 
 #include <Arduino.h>
-#include <sb6432.h>
+#include <ssd1331.h>
 #include "behaviour.h"
 #include "buttons.h"
 #include "comm.h"
@@ -28,10 +28,10 @@ class Switchboard;
 
 class Mode {
 public:
-    virtual void setupDisplay(SB6432& display) = 0;
+    virtual void setupDisplay(MonoGfx& display) = 0;
     virtual void loop(Switchboard& context) = 0;
-    virtual void updateDisplay1(SB6432& display) = 0;
-    virtual void updateDisplay2(SB6432& display) = 0;
+    virtual void updateDisplay1(MonoGfx& display) = 0;
+    virtual void updateDisplay2(MonoGfx& display) = 0;
 };
 
 class Switchboard : public Behaviour {
@@ -57,9 +57,9 @@ public:
 private:
     Buttons _buttons;
     Comm* _comm;
-    SB6432 _display1;
+    SSD1331 _display1;
     bool _display1Dirty;
-    SB6432 _display2;
+    SSD1331 _display2;
     bool _display2Dirty;
     unsigned long _freezeEnd;
     Mode* _mode;
