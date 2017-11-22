@@ -20,6 +20,10 @@
 
 #include <Arduino.h>
 
+
+#define TEXT_X 47
+#define TEXT_Y 37
+
 // ----------------------------------------------------------------------------
 // pin configuration
 // ----------------------------------------------------------------------------
@@ -79,7 +83,7 @@ void writeHeader();
 // version information
 // ----------------------------------------------------------------------------
 
-static const char* FIRMWARE_VERSION = "Version 0.5";
+static const char* FIRMWARE_VERSION = "Version 0.6";
 
 // ----------------------------------------------------------------------------
 // serial commands

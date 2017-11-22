@@ -16,13 +16,14 @@
  */
 
 #include "config.h"
-#include <EEPROM.h>
+//#include <EEPROM.h>
+#include <FlashAsEEPROM.h>
 
 Config CONFIG;
 
 #define LANGUAGE_COUNT 4
 
-const char* MODE_NAMES[MODE_COUNT] = {"On-Air", "Translate"};
+const char* MODE_NAMES[MODE_COUNT] = {"On-Air", "Translation"};
 const char* LANGUAGE_NAMES[LANGUAGE_COUNT] = {"DEU", "FRA", "ITA", "ENG"};
 const char* TALLY_NAMES[TALLY_COUNT] = {"LOW", "HIGH"};
 const char* COMM_NAMES[COMM_COUNT] = {"Direct", "Serial"};

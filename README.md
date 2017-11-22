@@ -14,10 +14,10 @@ Für die verschiedenen Geräte des Channel Switch wird die gleiche Arduino-Softw
 
 | A1  | A0  | Gerät                                      |
 |:--- |:--- |:------------------------------------------ |
-| 0   | 0   | Switchboard mit Audio-FSK-Kommunikation    |
-| 0   | 1   | Basisstation für Audio-FSK-Kommunikation   |
-| 1   | 0   | mobiles Switchboard mit LoRa-Kommunikation |
-| 1   | 1   | Adapter LoRa-zu Audio-FSK-Kommunikation    |
+| 0   | 0   | Adapter LoRa-zu Audio-FSK-Kommunikation    |
+| 0   | 1   | mobiles Switchboard mit LoRa-Kommunikation |
+| 1   | 0   | Basisstation für Audio-FSK-Kommunikation   |
+| 1   | 1   | Switchboard mit Audio-FSK-Kommunikation    |
 
 Die Eingänge sind aktiv hoch. Sie sind mit einem Pullup-Widerstand geschaltet, standardmässig wird also immer die Option «Basisstation» gewählt.
 

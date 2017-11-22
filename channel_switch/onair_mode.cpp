@@ -16,6 +16,7 @@
  */
 
 #include "onair_mode.h"
+#include "config.h"
 
 #define STATE_ON_AIR        0
 #define STATE_DIRECTION     1
@@ -91,39 +92,39 @@ void OnAirMode::updateDisplay1(MonoGfx& display) {
     }
 
     if (_state == STATE_ON_AIR) {
-        display.setBackgroundColor(255, 0, 0);
+        display.setBackgroundColor(0xC0, 0, 0);
         display.fill(MODE_CLEAR);
-        display.fillRect(0, 0, 63, 5, MODE_SET);
-        display.fillRect(0, 26, 63, 5, MODE_SET);
-        display.write(31, 23, "ON AIR");
+        display.fillRect(0, 0, 96, 10, MODE_SET);
+        display.fillRect(0, 53, 96, 10, MODE_SET);
+        display.write(TEXT_X, TEXT_Y, "ON AIR");
     }
     else {
-        display.setBackgroundColor(50, 50, 50);
+        display.setBackgroundColor(0, 0, 0);
         display.fill(MODE_CLEAR);
-        display.write(33, 23, "OFFAIR");
+        display.write(TEXT_X, TEXT_Y, "OFF AIR");
     }
 }
 
 void OnAirMode::updateDisplay2(MonoGfx& display) {
     display.fill(MODE_CLEAR);
     if (_state == STATE_COMM_ERROR) {
-        display.setBackgroundColor(255, 0, 0);
+        display.setBackgroundColor(0xE, 0, 0);
         display.fill(MODE_CLEAR);
-        display.write(31, 23, "Error");
+        display.write(TEXT_X, TEXT_Y, "Error");
         return;
     }
 
     if (_state == STATE_DIRECTION) {
-        display.setBackgroundColor(0, 0, 255);
+        display.setBackgroundColor(0, 0, 0xC0);
         display.fill(MODE_CLEAR);
-        display.fillRect(0, 0, 63, 5, MODE_SET);
-        display.fillRect(0, 26, 63, 5, MODE_SET);
+        display.fillRect(0, 0, 96, 10, MODE_SET);
+        display.fillRect(0, 53, 96, 10, MODE_SET);
     }
     else {
-        display.setBackgroundColor(0, 0, 50);
+        display.setBackgroundColor(0, 0, 0x40);
         display.fill(MODE_CLEAR);
     }
 
-    display.write(31, 23, "REGIE");
+    display.write(TEXT_X, TEXT_Y, "REGIE");
 }
 

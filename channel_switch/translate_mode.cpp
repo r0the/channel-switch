@@ -98,77 +98,78 @@ void TranslateMode::loop(Switchboard& switchboard) {
 }
 
 void TranslateMode::updateDisplay1(MonoGfx& display) {
+    display.setForegroundColor(255, 255, 255);
     if (_state == STATE_CHANNEL_ERROR) {
-        display.setBackgroundColor(255, 0, 0);
+        display.setBackgroundColor(0xE0, 0, 0);
         display.fill(MODE_CLEAR);
-        display.write(31, 23, "Both");
+        display.write(TEXT_X, TEXT_Y, "Both");
         return;
     }
 
     if (_state == STATE_COMM_ERROR) {
-        display.setBackgroundColor(255, 0, 0);
+        display.setBackgroundColor(0xE0, 0, 0);
         display.fill(MODE_CLEAR);
-        display.write(31, 23, "Comm");
+        display.write(TEXT_X, TEXT_Y, "Comm");
         return;
-    }
-
-    if (_state != STATE_MUTE) {
-        display.fillRect(0, 0, 63, 5, MODE_SET);
-        display.fillRect(0, 26, 63, 5, MODE_SET);
     }
 
     if (_language1) {
         if (_state == STATE_MUTE) {
-            display.setBackgroundColor(0, 50, 0);                
+            display.setBackgroundColor(0, 0x60, 0);                
             display.fill(MODE_CLEAR);
         }
         else {
-            display.setBackgroundColor(0, 255, 0);
+            display.setBackgroundColor(0, 0xC0, 0);
             display.fill(MODE_CLEAR);
         }
 
-        display.write(31, 23, CONFIG[CONFIG_LANGUAGE_1].name());
+        display.write(TEXT_X, TEXT_Y, CONFIG[CONFIG_LANGUAGE_1].name());
     }
     else {
         if (_state == STATE_MUTE) {
-            display.setBackgroundColor(0, 0, 50);                
+            display.setBackgroundColor(0, 0, 0x60);                
             display.fill(MODE_CLEAR);
         }
         else {
-            display.setBackgroundColor(0, 0, 255);
+            display.setBackgroundColor(0, 0, 0xC0);
             display.fill(MODE_CLEAR);
         }
 
-        display.write(31, 23, CONFIG[CONFIG_LANGUAGE_2].name());
+        display.write(TEXT_X, TEXT_Y, CONFIG[CONFIG_LANGUAGE_2].name());
+    }
+
+    if (_state != STATE_MUTE) {
+        display.fillRect(0, 0, 95, 10, MODE_SET);
+        display.fillRect(0, 53, 95, 10, MODE_SET);
     }
 }
 
 void TranslateMode::updateDisplay2(MonoGfx& display) {
-    display.fill(MODE_CLEAR);
     if (_state == STATE_CHANNEL_ERROR) {
         display.setBackgroundColor(255, 0, 0);
         display.fill(MODE_CLEAR);
-        display.write(31, 23, "Open");
+        display.write(TEXT_X, TEXT_Y, "Open");
         return;
     }
 
     if (_state == STATE_COMM_ERROR) {
         display.setBackgroundColor(255, 0, 0);
         display.fill(MODE_CLEAR);
-        display.write(31, 23, "Error");
+        display.write(TEXT_X, TEXT_Y, "Error");
         return;
     }
 
-    display.write(31, 23, "MUTE");
     if (_state == STATE_MUTE) {
-        display.setBackgroundColor(255, 255, 255);
+        display.setBackgroundColor(0x80, 0x80, 0x80);
         display.fill(MODE_CLEAR);
-        display.fillRect(0, 0, 63, 5, MODE_SET);
-        display.fillRect(0, 26, 63, 5, MODE_SET);
+        display.fillRect(0, 0, 96, 10, MODE_SET);
+        display.fillRect(0, 53, 96, 10, MODE_SET);
     }
     else {
-        display.setBackgroundColor(50, 50, 50);
+        display.setBackgroundColor(0x60, 0x60, 0x60);
         display.fill(MODE_CLEAR);
     }
+
+    display.write(TEXT_X, TEXT_Y, "MUTE");
 }
 

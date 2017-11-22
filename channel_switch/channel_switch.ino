@@ -29,7 +29,7 @@ void setup() {
     pinMode(PIN_DEV1, INPUT_PULLUP);
     pinMode(PIN_DEV2, INPUT_PULLUP);
     delay(100);
-    if (digitalRead(PIN_DEV1) == HIGH) {
+    if (digitalRead(PIN_DEV1) == LOW) {
         behaviour = new Base;
     }
     else {
