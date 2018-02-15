@@ -19,6 +19,7 @@
 #define CONFIG_H
 
 #include <Arduino.h>
+#include "storage.h"
 
 
 #define TEXT_X 47
@@ -131,28 +132,6 @@ static const char* FIRMWARE_VERSION = "Version 0.6";
 #define COMM_COUNT  2
 
 // ----------------------------------------------------------------------------
-// configuration item
-// ----------------------------------------------------------------------------
-
-class ConfigItem {
-public:
-    ConfigItem(uint8_t address, const char* title, uint8_t maxValue,
-        const char** names);
-    void load();
-    inline const char* name() const { return _names[_value]; }
-    void nextValue();
-    void save();
-    inline const char* title() const { return _title; }
-    inline uint8_t value() const { return _value; }
-private:
-    uint8_t _address;
-    uint8_t _maxValue;
-    const char** _names;
-    const char* _title;
-    uint8_t _value;
-};
-
-// ----------------------------------------------------------------------------
 // programmable persistent configuration
 // ----------------------------------------------------------------------------
 
@@ -165,6 +144,7 @@ public:
     void load();
     void save();
 private:
+    Storage _storage;
     ConfigItem** _items;
 
     uint8_t _mode;

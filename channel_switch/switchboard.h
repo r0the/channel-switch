@@ -19,6 +19,7 @@
 #define CONTEXT_H
 
 #include <Arduino.h>
+#include <monogfx.h>
 #include <ssd1331.h>
 #include "behaviour.h"
 #include "buttons.h"

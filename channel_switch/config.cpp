@@ -16,8 +16,6 @@
  */
 
 #include "config.h"
-//#include <EEPROM.h>
-#include <FlashAsEEPROM.h>
 
 Config CONFIG;
 
@@ -38,35 +36,15 @@ void writeHeader() {
     Serial1.write(COMM_MAGIC_2);
 }
 
-ConfigItem::ConfigItem(uint8_t address, const char* title, uint8_t maxValue, const char** names) :
-    _address(address),
-    _maxValue(maxValue),
-    _names(names),
-    _title(title),
-    _value(0)
-{
-}
-
-void ConfigItem::load() {
-    _value = EEPROM.read(_address) % _maxValue;
-}
-
-void ConfigItem::nextValue() {
-    _value = (_value + 1) % _maxValue;
-}
-
-void ConfigItem::save() {
-    EEPROM.update(_address, _value);
-}
-
 Config::Config() :
+    _storage(),
     _items(new ConfigItem*[CONFIG_COUNT])
 {
-    _items[CONFIG_MODE] = new ConfigItem(3, "Mode", MODE_COUNT, MODE_NAMES);
-    _items[CONFIG_LANGUAGE_1] = new ConfigItem(1, "Language 1", LANGUAGE_COUNT, LANGUAGE_NAMES);
-    _items[CONFIG_LANGUAGE_2] = new ConfigItem(2, "Language 2", LANGUAGE_COUNT, LANGUAGE_NAMES);
-    _items[CONFIG_TALLY] = new ConfigItem(4, "Tally Active", TALLY_COUNT, TALLY_NAMES);
-    _items[CONFIG_COMM] = new ConfigItem(5, "Comm", COMM_COUNT, COMM_NAMES);
+    _items[CONFIG_MODE] = new ConfigItem(_storage, 3, "Mode", MODE_COUNT, MODE_NAMES);
+    _items[CONFIG_LANGUAGE_1] = new ConfigItem(_storage, 1, "Language 1", LANGUAGE_COUNT, LANGUAGE_NAMES);
+    _items[CONFIG_LANGUAGE_2] = new ConfigItem(_storage, 2, "Language 2", LANGUAGE_COUNT, LANGUAGE_NAMES);
+    _items[CONFIG_TALLY] = new ConfigItem(_storage, 4, "Tally Active", TALLY_COUNT, TALLY_NAMES);
+    _items[CONFIG_COMM] = new ConfigItem(_storage, 5, "Comm", COMM_COUNT, COMM_NAMES);
 }
 
 ConfigItem& Config::operator[](uint8_t index) const {

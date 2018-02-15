@@ -1,4 +1,5 @@
-/*
+ 
+ /*
  * Copyright (C) 2017 by Stefan Rothe
  *
  * This program is free software: you can redistribute it and/or modify
@@ -15,6 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <Wire.h>
 #include "base.h"
 #include "config.h"
 #include "switchboard.h"
@@ -25,7 +27,8 @@ void setup() {
 //    Serial.begin(9600);
 //    while (!Serial) { delay(1); }
 //    Serial.println("Debugging");
-    
+
+    Wire.begin();
     pinMode(PIN_DEV1, INPUT_PULLUP);
     pinMode(PIN_DEV2, INPUT_PULLUP);
     delay(100);
