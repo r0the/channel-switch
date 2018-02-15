@@ -115,11 +115,11 @@ void TranslateMode::updateDisplay1(MonoGfx& display) {
 
     if (_language1) {
         if (_state == STATE_MUTE) {
-            display.setBackgroundColor(0, 0x60, 0);                
+            display.setBackgroundColor(0, 0, 0x60);                
             display.fill(MODE_CLEAR);
         }
         else {
-            display.setBackgroundColor(0, 0xC0, 0);
+            display.setBackgroundColor(0, 0, 0xC0);
             display.fill(MODE_CLEAR);
         }
 
@@ -160,13 +160,13 @@ void TranslateMode::updateDisplay2(MonoGfx& display) {
     }
 
     if (_state == STATE_MUTE) {
-        display.setBackgroundColor(0x80, 0x80, 0x80);
+        display.setBackgroundColor(0xC0, 0, 0);
         display.fill(MODE_CLEAR);
         display.fillRect(0, 0, 96, 10, MODE_SET);
         display.fillRect(0, 53, 96, 10, MODE_SET);
     }
     else {
-        display.setBackgroundColor(0x60, 0x60, 0x60);
+        display.setBackgroundColor(0x20, 0x00, 0x00);
         display.fill(MODE_CLEAR);
     }
 
