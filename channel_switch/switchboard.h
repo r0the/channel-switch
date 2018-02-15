@@ -54,7 +54,6 @@ public:
     inline void setDirection(bool active) { _comm->setDirection(active); }
     void toggleChannel1();
     void toggleChannel2();
-    inline void toggleMute() { _comm->toggleMute(); };
 private:
     Buttons _buttons;
     Comm* _comm;

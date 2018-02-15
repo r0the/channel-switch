@@ -12,7 +12,7 @@ Die Channel Switch Arduino-Software ist für den Einsatz auf einem [Arduino MKR-
 
 Für die verschiedenen Geräte des Channel Switch wird die gleiche Arduino-Software verwendet. Der Betriebsmodus wird über die Eingänge A0 und A1 des Arduino festgelegt.
 
-| A1  | A0  | Gerät                                      |
+| A3  | A2  | Gerät                                      |
 |:--- |:--- |:------------------------------------------ |
 | 0   | 0   | Adapter LoRa-zu Audio-FSK-Kommunikation    |
 | 0   | 1   | mobiles Switchboard mit LoRa-Kommunikation |
@@ -23,28 +23,26 @@ Die Eingänge sind aktiv hoch. Sie sind mit einem Pullup-Widerstand geschaltet, 
 
 ## Pinbelegung
 
-| MKR | Bezeichnung | Typ         | Gerät        | Funktion                                 | Aktiv          |
-|:--- |:----------- |:----------- |:------------ |:---------------------------------------- |:-------------- |
-| A0  | DEV1        | Digital in  | HW-Switch    | Identifikation des Gerätetyps            | HIGH           |
-| A1  | DEV2        | Digital in  | HW-Switch    | Identifikation des Gerätetyps            | HIGH           |
-| A2  | TY1         | Digital in  | Mischpult    | Kanal 1 offen (On Air / Sprache 1)       | konfigurierbar |
-| A3  | TY2         | Digital in  | Mischpult    | Kanal 2 offen (Sprache 2)                | konfigurierbar |
-| A4  | OLED_RESET  | Digital out | OLED         | Reset                                    | LOW            |
-| A5  | OLED_CMD    | Digital out | OLED         | Command Mode                             | LOW            |
-| A6  |             | -           | -            | -                                        | -              |
-| 0   | BTN1        | Digital in  | Taste 1      | Taste 1 gedrückt                         | LOW            |
-| 1   | BTN2        | Digital in  | Taste 2      | Taste 2 gedrückt                         | LOW            |
-| 2   | RQ1         | Digital out | Mischpult    | Anforderung Kanal 1 (On Air / Sprache 1) | HIGH           |
-| 3   | RQ2         | Digital out | Mischpult    | Anforderung Kanal 2 (On Air / Sprache 1) | HIGH           |
-| 4   | DIR         | Digital out | Tellix Regie | Anfrage Kanal Regie                      | HIGH           |
-| 5   | MUTE        | Digital out | ?            | Benachrichtigung Stummschaltung          | HIGH           |
-| 6   | OLED_CS1    | Digital out | OLED         | Chip Select OLED links                   | LOW            |
-| 7   | OLED_CS2    | Digital out | OLED         | Chip Select OLED rechts                  | LOW            |
-| 8   | MOSI        | Digital out | SPI          | SPI Daten                                | -              |
-| 9   | SCK         | Digital out | SPI          | SPI Takt                                 | -              |
-| 10  | MISO        | Digital in  | SPI          | SPI Daten                                | -              |
-| 11  | SDA         | -           | I2C          | I2C Daten                                | -              |
-| 12  | SCL         | -           | I2C          | I2C Takt                                 | -              |
+| MKR | Bezeichnung | Typ         | Gerät        | Funktion                                 | Aktiv |
+|:--- |:----------- |:----------- |:------------ |:---------------------------------------- |:----- |
+| A1  | TY1         | Digital in  | Mischpult    | Kanal 1 offen (On Air / Sprache 1)       | LOW   |
+| A0  | TY2         | Digital in  | Mischpult    | Kanal 2 offen (Sprache 2)                | LOW   |
+| A2  | DEV1        | Digital in  | HW-Switch    | Identifikation des Gerätetyps            | HIGH  |
+| A3  | DEV2        | Digital in  | HW-Switch    | Identifikation des Gerätetyps            | HIGH  |
+| A4  | BTN2        | Digital in  | Taste 2      | Taste 2 gedrückt                         | LOW   |
+| A5  | BTN1        | Digital in  | Taste 1      | Taste 1 gedrückt                         | LOW   |
+| 0   | OLED_CMD    | Digital out | OLED         | Command Mode                             | LOW   |
+| 1   | OLED_RESET  | Digital out | OLED         | Reset                                    | LOW   |
+| 12  | RQ1         | Digital out | Mischpult    | Anforderung Kanal 1 (On Air / Sprache 1) | HIGH  |
+| 13  | RQ2         | Digital out | Mischpult    | Anforderung Kanal 2 (On Air / Sprache 1) | HIGH  |
+| 6   | DIR         | Digital out | Tellix Regie | Anfrage Kanal Regie                      | HIGH  |
+| 5   | OLED_CS1    | Digital out | OLED         | Chip Select OLED links                   | LOW   |
+| 10  | OLED_CS2    | Digital out | OLED         | Chip Select OLED rechts                  | LOW   |
+| 20  | SDA         | -           | I2C          | I2C Daten                                | -     |
+| 21  | SCL         | -           | I2C          | I2C Takt                                 | -     |
+| 22  | MISO        | Digital in  | SPI          | SPI Daten                                | -     |
+| 23  | MOSI        | Digital out | SPI          | SPI Daten                                | -     |
+| 24  | SCK         | Digital out | SPI          | SPI Takt                                 | -     |
 
 
 ## Betriebsmodus On Air

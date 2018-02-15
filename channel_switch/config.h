@@ -29,21 +29,20 @@
 // pin configuration
 // ----------------------------------------------------------------------------
 
-#define PIN_DEV1        A0
-#define PIN_DEV2        A1
-#define PIN_TY1         A2
-#define PIN_TY2         A3
-#define PIN_OLED_RESET  A4
-#define PIN_OLED_CMD    A5
+#define PIN_TY1         A0
+#define PIN_TY2         A1
+#define PIN_DEV1        A2
+#define PIN_DEV2        A3
+#define PIN_BTN2        A4
+#define PIN_BTN1        A5
 
-#define PIN_BTN2        0
-#define PIN_BTN1        1
-#define PIN_RQ1         2
-#define PIN_RQ2         3
-#define PIN_DIR         4
-#define PIN_MUTE        5
-#define PIN_OLED_CS1    6
-#define PIN_OLED_CS2    7
+#define PIN_OLED_CMD    0
+#define PIN_OLED_RESET  1
+#define PIN_OLED_CS1    5
+#define PIN_DIR         6
+#define PIN_OLED_CS2   10
+#define PIN_RQ1        12
+#define PIN_RQ2        13
 
 #define PULSE_LENGTH_MS 100
 

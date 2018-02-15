@@ -23,7 +23,6 @@ void DirectComm::setup() {
     _channel2 = false;
     _channel1End = 0;
     _channel2End = 0;
-    _muteEnd = 0;
 
     pinMode(PIN_TY1, INPUT_PULLUP);
     pinMode(PIN_TY2, INPUT_PULLUP);
@@ -33,9 +32,6 @@ void DirectComm::setup() {
 
     pinMode(PIN_RQ2, OUTPUT);
     digitalWrite(PIN_RQ2, LOW);
-
-    pinMode(PIN_MUTE, OUTPUT);
-    digitalWrite(PIN_MUTE, LOW);
 
     pinMode(PIN_DIR, OUTPUT);
     digitalWrite(PIN_DIR, LOW);
@@ -52,10 +48,6 @@ void DirectComm::loop() {
 
     if (_channel2End <= now) {
         digitalWrite(PIN_RQ2, LOW);
-    }
-
-    if (_muteEnd <= now) {
-        digitalWrite(PIN_MUTE, LOW);
     }
 }
 
@@ -84,10 +76,5 @@ void DirectComm::toggleChannel1() {
 void DirectComm::toggleChannel2() {
     _channel2End = millis() + PULSE_LENGTH_MS;
     digitalWrite(PIN_RQ2, HIGH);
-}
-
-void DirectComm::toggleMute() {
-    _muteEnd = millis() + PULSE_LENGTH_MS;
-    digitalWrite(PIN_MUTE, HIGH);
 }
 

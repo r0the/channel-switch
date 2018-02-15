@@ -38,9 +38,6 @@ void Base::loop() {
                 case CMD_TOGGLE_CHANNEL_2:
                     _comm.toggleChannel2();
                     break;
-                case CMD_TOGGLE_MUTE:
-                    _comm.toggleMute();
-                    break;
                 case CMD_DIRECTION_ENABLE:
                     _comm.setDirection(true);
                     break;

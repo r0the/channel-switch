@@ -19,6 +19,14 @@
 #include <Wire.h>
 
 #if defined(ARDUINO_SAMD_MKR1000)
+#define NO_EEPROM
+#endif
+
+#if defined(ARDUINO_SAMD_FEATHER_M0)
+#define NO_EEPROM
+#endif
+
+#if defined(NO_EEPROM)
 #define EEPROM_ADDRESS 0x50
 #else
 #include <EEPROM.h>
@@ -28,7 +36,7 @@ Storage::Storage() {
 }
 
 void Storage::writeByte(uint16_t address, uint8_t data) const {
-#if defined(ARDUINO_SAMD_MKR1000)
+#if defined(NO_EEPROM)
     Wire.beginTransmission(EEPROM_ADDRESS);
     Wire.write(static_cast<uint8_t>(address >> 8));
     Wire.write(static_cast<uint8_t>(address & 0xFF));
@@ -41,7 +49,7 @@ void Storage::writeByte(uint16_t address, uint8_t data) const {
 }
 
 uint8_t Storage::readByte(uint16_t address) const {
-#if defined(ARDUINO_SAMD_MKR1000)
+#if defined(NO_EEPROM)
     Wire.beginTransmission(EEPROM_ADDRESS);
     Wire.write(static_cast<uint8_t>(address >> 8));
     Wire.write(static_cast<uint8_t>(address & 0xFF));

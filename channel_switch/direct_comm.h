@@ -30,12 +30,10 @@ public:
     virtual void setDirection(bool active);
     virtual void toggleChannel1();
     virtual void toggleChannel2();
-    virtual void toggleMute();
 private:
     bool _channel1;
     bool _channel2;
     unsigned long _channel1End;
-    unsigned long _muteEnd;
     unsigned long _channel2End;
 };
 

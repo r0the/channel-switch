@@ -28,7 +28,6 @@ public:
     virtual void setDirection(bool active) = 0;
     virtual void toggleChannel1() = 0;
     virtual void toggleChannel2() = 0;
-    virtual void toggleMute() = 0;
 };
 
 #endif
