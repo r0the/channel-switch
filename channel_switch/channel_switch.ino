@@ -24,10 +24,6 @@
 Behaviour* behaviour;
 
 void setup() {
-//    Serial.begin(9600);
-//    while (!Serial) { delay(1); }
-//    Serial.println("Debugging");
-
     Wire.begin();
     pinMode(PIN_DEV1, INPUT_PULLUP);
     pinMode(PIN_DEV2, INPUT_PULLUP);

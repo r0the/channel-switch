@@ -18,17 +18,6 @@
 #include "direct_comm.h"
 #include "config.h"
 
-static uint8_t activeTally() {
-    switch (CONFIG.tally()) {
-        case TALLY_ACTIVE_LOW:
-            return LOW;
-        case TALLY_ACTIVE_HIGH:
-            return HIGH;
-        default:
-            return HIGH;
-    }
-}
-
 void DirectComm::setup() {
     _channel1 = false;
     _channel2 = false;
@@ -53,9 +42,8 @@ void DirectComm::setup() {
 }
 
 void DirectComm::loop() {
-    uint8_t active = activeTally();
-    _channel1 = digitalRead(PIN_TY1) == active;
-    _channel2 = digitalRead(PIN_TY2) == active;
+    _channel1 = digitalRead(PIN_TY1) == TALLY_ACTIVE;
+    _channel2 = digitalRead(PIN_TY2) == TALLY_ACTIVE;
 
     unsigned long now = millis();
     if (_channel1End <= now) {

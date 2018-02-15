@@ -23,7 +23,6 @@
 #include "translate_mode.h"
 
 #include "direct_comm.h"
-#include "serial_comm.h"
 
 Switchboard::Switchboard() :
     _comm(NULL),
@@ -84,16 +83,7 @@ void Switchboard::freeze() {
 }
 
 void Switchboard::setupComm() {
-    Comm* comm = NULL;
-    switch (CONFIG[CONFIG_COMM].value()) {
-        case COMM_DIRECT:
-            comm = new DirectComm;
-            break;
-        case COMM_SERIAL:
-            comm = new SerialComm;
-            break;
-    }
-
+    Comm* comm = new DirectComm;
     delete _comm;
     _comm = comm;
     _comm->setup();

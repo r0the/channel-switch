@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 by Stefan Rothe
+ * Copyright (C) 2017 - 2018 by Stefan Rothe
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -84,7 +84,7 @@ void writeHeader();
 // version information
 // ----------------------------------------------------------------------------
 
-static const char* FIRMWARE_VERSION = "Version 0.6";
+static const char* FIRMWARE_VERSION = "Version 1.0beta";
 
 // ----------------------------------------------------------------------------
 // serial commands
@@ -103,9 +103,7 @@ static const char* FIRMWARE_VERSION = "Version 0.6";
 #define CONFIG_MODE       0
 #define CONFIG_LANGUAGE_1 1
 #define CONFIG_LANGUAGE_2 2
-#define CONFIG_TALLY      3
-#define CONFIG_COMM       4
-#define CONFIG_COUNT      5
+#define CONFIG_COUNT      3
 
 // ----------------------------------------------------------------------------
 // configuration of modes
@@ -116,12 +114,10 @@ static const char* FIRMWARE_VERSION = "Version 0.6";
 #define MODE_COUNT     2
 
 // ----------------------------------------------------------------------------
-// configuration of tally modes
+// configuration of tally active
 // ----------------------------------------------------------------------------
 
-#define TALLY_ACTIVE_LOW  0
-#define TALLY_ACTIVE_HIGH 1
-#define TALLY_COUNT       2
+#define TALLY_ACTIVE LOW
 
 // ----------------------------------------------------------------------------
 // configuration of communication mode
@@ -140,7 +136,6 @@ public:
     Config();
     ConfigItem& operator[](uint8_t index) const;
 
-    uint8_t tally() const;
     void load();
     void save();
 private:

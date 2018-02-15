@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 by Stefan Rothe
+ * Copyright (C) 2017 - 2018 by Stefan Rothe
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,8 +23,6 @@ Config CONFIG;
 
 const char* MODE_NAMES[MODE_COUNT] = {"On-Air", "Translation"};
 const char* LANGUAGE_NAMES[LANGUAGE_COUNT] = {"DEU", "FRA", "ITA", "ENG"};
-const char* TALLY_NAMES[TALLY_COUNT] = {"LOW", "HIGH"};
-const char* COMM_NAMES[COMM_COUNT] = {"Direct", "Serial"};
 
 bool checkHeader() {
     char magic1 = Serial1.read();
@@ -43,16 +41,10 @@ Config::Config() :
     _items[CONFIG_MODE] = new ConfigItem(_storage, 3, "Mode", MODE_COUNT, MODE_NAMES);
     _items[CONFIG_LANGUAGE_1] = new ConfigItem(_storage, 1, "Language 1", LANGUAGE_COUNT, LANGUAGE_NAMES);
     _items[CONFIG_LANGUAGE_2] = new ConfigItem(_storage, 2, "Language 2", LANGUAGE_COUNT, LANGUAGE_NAMES);
-    _items[CONFIG_TALLY] = new ConfigItem(_storage, 4, "Tally Active", TALLY_COUNT, TALLY_NAMES);
-    _items[CONFIG_COMM] = new ConfigItem(_storage, 5, "Comm", COMM_COUNT, COMM_NAMES);
 }
 
 ConfigItem& Config::operator[](uint8_t index) const {
     return *_items[index];
-}
-
-uint8_t Config::tally() const {
-    return _items[CONFIG_TALLY]->value();
 }
 
 void Config::load() {
