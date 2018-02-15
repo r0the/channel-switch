@@ -12,14 +12,10 @@ Die Channel Switch Arduino-Software ist für den Einsatz auf einem [Arduino MKR-
 
 Für die verschiedenen Geräte des Channel Switch wird die gleiche Arduino-Software verwendet. Der Betriebsmodus wird über die Eingänge A0 und A1 des Arduino festgelegt.
 
-| A3  | A2  | Gerät                                      |
-|:--- |:--- |:------------------------------------------ |
-| 0   | 0   | Adapter LoRa-zu Audio-FSK-Kommunikation    |
-| 0   | 1   | mobiles Switchboard mit LoRa-Kommunikation |
-| 1   | 0   | Basisstation für Audio-FSK-Kommunikation   |
-| 1   | 1   | Switchboard mit Audio-FSK-Kommunikation    |
+| A3   | A2   | Gerät                                   |
+|:---- |:---- |:--------------------------------------- |
+| HIGH | HIGH | Switchboard mit Audio-FSK-Kommunikation |
 
-Die Eingänge sind aktiv hoch. Sie sind mit einem Pullup-Widerstand geschaltet, standardmässig wird also immer die Option «Basisstation» gewählt.
 
 ## Pinbelegung
 
