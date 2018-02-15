@@ -52,23 +52,23 @@ void ConfigMode::loop(Switchboard& switchboard) {
 
 void ConfigMode::updateDisplay1(MonoGfx& display) {
     display.fill(MODE_CLEAR);
-    display.write(0, 8, "Config Menu");
+    display.write(3, 11, "Config Menu");
     if (_menuPos == CONFIG_COUNT) {
-        display.write(0, 61, "Exit");
+        display.write(3, 58, "Exit");
     }
     else {
-        display.write(0, 61, CONFIG[_menuPos].title());
+        display.write(3, 58, CONFIG[_menuPos].title());
     }
 }
 
 void ConfigMode::updateDisplay2(MonoGfx& display) {
     display.fill(MODE_CLEAR);
-    display.write(0, 8, FIRMWARE_VERSION);
+    display.write(3, 11, FIRMWARE_VERSION);
     if (_menuPos == CONFIG_COUNT) {
-        display.write(0, 61, "Confirm");
+        display.write(3, 58, "Confirm");
     }
     else {
-        display.write(0, 61, CONFIG[_menuPos].name());
+        display.write(3, 58, CONFIG[_menuPos].name());
     }
 }
 
