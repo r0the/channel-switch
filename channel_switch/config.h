@@ -83,7 +83,7 @@ void writeHeader();
 // version information
 // ----------------------------------------------------------------------------
 
-static const char* FIRMWARE_VERSION = "Version 1.0beta";
+static const char* FIRMWARE_VERSION = "Version 1.0";
 
 // ----------------------------------------------------------------------------
 // serial commands
