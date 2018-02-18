@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 by Stefan Rothe
+ * Copyright (C) 2017 - 2018 by Stefan Rothe
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -42,7 +42,7 @@ static uint8_t determineState(Switchboard& switchboard) {
     }
 }
 
-void OnAirMode::setupDisplay(MonoGfx& display) {
+void OnAirMode::setupDisplay(SSD1331& display) {
     display.setFontScale(2);
     display.setTextAlign(ALIGN_CENTER);
 }
@@ -83,48 +83,47 @@ void OnAirMode::loop(Switchboard& switchboard) {
     }
 }
 
-void OnAirMode::updateDisplay1(MonoGfx& display) {
+void OnAirMode::updateDisplay1(SSD1331& display) {
     if (_state == STATE_COMM_ERROR) {
         display.setBackgroundColor(255, 0, 0);
-        display.fill(MODE_CLEAR);
-        display.write(31, 23, "Comm");
+        display.clear();
+        display.drawText(31, 23, "Comm");
         return;
     }
 
     if (_state == STATE_ON_AIR) {
         display.setBackgroundColor(0xC0, 0, 0);
-        display.fill(MODE_CLEAR);
-        display.fillRect(0, 0, 96, 10, MODE_SET);
-        display.fillRect(0, 53, 96, 10, MODE_SET);
-        display.write(TEXT_X, TEXT_Y, "ON AIR");
+        display.clear();
+        display.fillRectangle(0, 0, 96, 10);
+        display.fillRectangle(0, 53, 96, 10);
+        display.drawText(TEXT_X, TEXT_Y, "ON AIR");
     }
     else {
         display.setBackgroundColor(0, 0, 0);
-        display.fill(MODE_CLEAR);
-        display.write(TEXT_X, TEXT_Y, "OFF AIR");
+        display.clear();
+        display.drawText(TEXT_X, TEXT_Y, "OFF AIR");
     }
 }
 
-void OnAirMode::updateDisplay2(MonoGfx& display) {
-    display.fill(MODE_CLEAR);
+void OnAirMode::updateDisplay2(SSD1331& display) {
     if (_state == STATE_COMM_ERROR) {
         display.setBackgroundColor(0xE, 0, 0);
-        display.fill(MODE_CLEAR);
-        display.write(TEXT_X, TEXT_Y, "Error");
+        display.clear();
+        display.drawText(TEXT_X, TEXT_Y, "Error");
         return;
     }
 
     if (_state == STATE_DIRECTION) {
         display.setBackgroundColor(0, 0, 0xC0);
-        display.fill(MODE_CLEAR);
-        display.fillRect(0, 0, 96, 10, MODE_SET);
-        display.fillRect(0, 53, 96, 10, MODE_SET);
+        display.clear();
+        display.fillRectangle(0, 0, 96, 10);
+        display.fillRectangle(0, 53, 96, 10);
     }
     else {
         display.setBackgroundColor(0, 0, 0x40);
-        display.fill(MODE_CLEAR);
+        display.clear();
     }
 
-    display.write(TEXT_X, TEXT_Y, "REGIE");
+    display.drawText(TEXT_X, TEXT_Y, "REGIE");
 }
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 by Stefan Rothe
+ * Copyright (C) 2017 - 2018 by Stefan Rothe
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,10 +23,10 @@
 class ConfigMode : public Mode {
 public:
     ConfigMode();
-    virtual void setupDisplay(MonoGfx& display);
+    virtual void setupDisplay(SSD1331& display);
     virtual void loop(Switchboard& switchboard);
-    virtual void updateDisplay1(MonoGfx& display);
-    virtual void updateDisplay2(MonoGfx& display);
+    virtual void updateDisplay1(SSD1331& display);
+    virtual void updateDisplay2(SSD1331& display);
 private:
     uint8_t _menuPos;
 };

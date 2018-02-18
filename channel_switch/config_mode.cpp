@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 by Stefan Rothe
+ * Copyright (C) 2017 - 2018 by Stefan Rothe
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,7 +23,7 @@ ConfigMode::ConfigMode() :
 {
 }
 
-void ConfigMode::setupDisplay(MonoGfx& display) {
+void ConfigMode::setupDisplay(SSD1331& display) {
     display.setFontScale(1);
     display.setTextAlign(ALIGN_LEFT);
     display.setForegroundColor(255, 255, 255);
@@ -50,25 +50,25 @@ void ConfigMode::loop(Switchboard& switchboard) {
     }
 }
 
-void ConfigMode::updateDisplay1(MonoGfx& display) {
-    display.fill(MODE_CLEAR);
-    display.write(3, 11, "Config Menu");
+void ConfigMode::updateDisplay1(SSD1331& display) {
+    display.clear();
+    display.drawText(3, 11, "Config Menu");
     if (_menuPos == CONFIG_COUNT) {
-        display.write(3, 58, "Exit");
+        display.drawText(3, 58, "Exit");
     }
     else {
-        display.write(3, 58, CONFIG[_menuPos].title());
+        display.drawText(3, 58, CONFIG[_menuPos].title());
     }
 }
 
-void ConfigMode::updateDisplay2(MonoGfx& display) {
-    display.fill(MODE_CLEAR);
-    display.write(3, 11, FIRMWARE_VERSION);
+void ConfigMode::updateDisplay2(SSD1331& display) {
+    display.clear();
+    display.drawText(3, 11, FIRMWARE_VERSION);
     if (_menuPos == CONFIG_COUNT) {
-        display.write(3, 58, "Confirm");
+        display.drawText(3, 58, "Confirm");
     }
     else {
-        display.write(3, 58, CONFIG[_menuPos].name());
+        display.drawText(3, 58, CONFIG[_menuPos].name());
     }
 }
 

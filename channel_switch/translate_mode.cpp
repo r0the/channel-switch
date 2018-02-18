@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 by Stefan Rothe
+ * Copyright (C) 2017 - 2018 by Stefan Rothe
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -47,7 +47,7 @@ static uint8_t determineState(Switchboard& switchboard) {
     }
 }
 
-void TranslateMode::setupDisplay(MonoGfx& display) {
+void TranslateMode::setupDisplay(SSD1331& display) {
     display.setFontScale(2);
     display.setTextAlign(ALIGN_CENTER);
 }
@@ -97,79 +97,79 @@ void TranslateMode::loop(Switchboard& switchboard) {
     }
 }
 
-void TranslateMode::updateDisplay1(MonoGfx& display) {
+void TranslateMode::updateDisplay1(SSD1331& display) {
     display.setForegroundColor(255, 255, 255);
     if (_state == STATE_CHANNEL_ERROR) {
         display.setBackgroundColor(0xE0, 0, 0);
-        display.fill(MODE_CLEAR);
-        display.write(TEXT_X, TEXT_Y, "Both");
+        display.clear();
+        display.drawText(TEXT_X, TEXT_Y, "Both");
         return;
     }
 
     if (_state == STATE_COMM_ERROR) {
         display.setBackgroundColor(0xE0, 0, 0);
-        display.fill(MODE_CLEAR);
-        display.write(TEXT_X, TEXT_Y, "Comm");
+        display.clear();
+        display.drawText(TEXT_X, TEXT_Y, "Comm");
         return;
     }
 
     if (_language1) {
         if (_state == STATE_MUTE) {
             display.setBackgroundColor(0, 0, 0x60);                
-            display.fill(MODE_CLEAR);
+            display.clear();
         }
         else {
             display.setBackgroundColor(0, 0, 0xC0);
-            display.fill(MODE_CLEAR);
+            display.clear();
         }
 
-        display.write(TEXT_X, TEXT_Y, CONFIG[CONFIG_LANGUAGE_1].name());
+        display.drawText(TEXT_X, TEXT_Y, CONFIG[CONFIG_LANGUAGE_1].name());
     }
     else {
         if (_state == STATE_MUTE) {
             display.setBackgroundColor(0, 0, 0x60);                
-            display.fill(MODE_CLEAR);
+            display.clear();
         }
         else {
             display.setBackgroundColor(0, 0, 0xC0);
-            display.fill(MODE_CLEAR);
+            display.clear();
         }
 
-        display.write(TEXT_X, TEXT_Y, CONFIG[CONFIG_LANGUAGE_2].name());
+        display.drawText(TEXT_X, TEXT_Y, CONFIG[CONFIG_LANGUAGE_2].name());
     }
 
     if (_state != STATE_MUTE) {
-        display.fillRect(0, 0, 95, 10, MODE_SET);
-        display.fillRect(0, 53, 95, 10, MODE_SET);
+        display.fillRectangle(0, 0, 95, 10);
+        display.fillRectangle(0, 53, 95, 10);
     }
 }
 
-void TranslateMode::updateDisplay2(MonoGfx& display) {
+void TranslateMode::updateDisplay2(SSD1331& display) {
     if (_state == STATE_CHANNEL_ERROR) {
         display.setBackgroundColor(255, 0, 0);
-        display.fill(MODE_CLEAR);
-        display.write(TEXT_X, TEXT_Y, "Open");
+        display.clear();
+        display.drawText(TEXT_X, TEXT_Y, "Open");
         return;
     }
 
     if (_state == STATE_COMM_ERROR) {
         display.setBackgroundColor(255, 0, 0);
-        display.fill(MODE_CLEAR);
-        display.write(TEXT_X, TEXT_Y, "Error");
+        display.clear();
+        display.drawText(TEXT_X, TEXT_Y, "Error");
         return;
     }
 
     if (_state == STATE_MUTE) {
         display.setBackgroundColor(0xC0, 0, 0);
-        display.fill(MODE_CLEAR);
-        display.fillRect(0, 0, 96, 10, MODE_SET);
-        display.fillRect(0, 53, 96, 10, MODE_SET);
+        display.clear();
+        display.fillRectangle(0, 0, 96, 10);
+        display.fillRectangle(0, 53, 96, 10);
     }
     else {
         display.setBackgroundColor(0x20, 0x00, 0x00);
-        display.fill(MODE_CLEAR);
+        display.clear();
     }
 
-    display.write(TEXT_X, TEXT_Y, "MUTE");
+    display.drawText(TEXT_X, TEXT_Y, "MUTE");
 }
 

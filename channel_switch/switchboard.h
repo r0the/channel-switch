@@ -19,7 +19,6 @@
 #define CONTEXT_H
 
 #include <Arduino.h>
-#include <monogfx.h>
 #include <ssd1331.h>
 #include "behaviour.h"
 #include "buttons.h"
@@ -29,10 +28,10 @@ class Switchboard;
 
 class Mode {
 public:
-    virtual void setupDisplay(MonoGfx& display) = 0;
+    virtual void setupDisplay(SSD1331& display) = 0;
     virtual void loop(Switchboard& context) = 0;
-    virtual void updateDisplay1(MonoGfx& display) = 0;
-    virtual void updateDisplay2(MonoGfx& display) = 0;
+    virtual void updateDisplay1(SSD1331& display) = 0;
+    virtual void updateDisplay2(SSD1331& display) = 0;
 };
 
 class Switchboard : public Behaviour {
