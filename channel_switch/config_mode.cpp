@@ -18,6 +18,10 @@
 #include "config_mode.h"
 #include "config.h"
 
+#define TEXT_LEFT 3
+#define TEXT_TOP 3
+#define TEXT_BOTTOM 48
+
 ConfigMode::ConfigMode() :
     _menuPos(0)
 {
@@ -51,24 +55,27 @@ void ConfigMode::loop(Switchboard& switchboard) {
 }
 
 void ConfigMode::updateDisplay1(SSD1331& display) {
+    display.setFont(&HELVETICA_10_B);
     display.clear();
-    display.drawText(3, 11, "Config Menu");
+    display.drawText(TEXT_LEFT, TEXT_TOP, "Config Menu");
     if (_menuPos == CONFIG_COUNT) {
-        display.drawText(3, 58, "Exit");
+        display.drawText(TEXT_LEFT, TEXT_BOTTOM, "Exit");
     }
     else {
-        display.drawText(3, 58, CONFIG[_menuPos].title());
+        display.drawText(TEXT_LEFT, TEXT_BOTTOM, CONFIG[_menuPos].title());
     }
 }
 
+
 void ConfigMode::updateDisplay2(SSD1331& display) {
+    display.setFont(&HELVETICA_10_B);
     display.clear();
-    display.drawText(3, 11, FIRMWARE_VERSION);
+    display.drawText(TEXT_LEFT, TEXT_TOP, FIRMWARE_VERSION);
     if (_menuPos == CONFIG_COUNT) {
-        display.drawText(3, 58, "Confirm");
+        display.drawText(TEXT_LEFT, TEXT_BOTTOM, "Confirm");
     }
     else {
-        display.drawText(3, 58, CONFIG[_menuPos].name());
+        display.drawText(TEXT_LEFT, TEXT_BOTTOM, CONFIG[_menuPos].name());
     }
 }
 

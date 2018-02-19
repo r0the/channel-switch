@@ -48,7 +48,6 @@ static uint8_t determineState(Switchboard& switchboard) {
 }
 
 void TranslateMode::setupDisplay(SSD1331& display) {
-    display.setFontScale(2);
     display.setTextAlign(ALIGN_CENTER);
 }
 
@@ -98,6 +97,7 @@ void TranslateMode::loop(Switchboard& switchboard) {
 }
 
 void TranslateMode::updateDisplay1(SSD1331& display) {
+    display.setFont(&SWISS_20_B);
     display.setForegroundColor(255, 255, 255);
     if (_state == STATE_CHANNEL_ERROR) {
         display.setBackgroundColor(0xE0, 0, 0);
@@ -115,6 +115,7 @@ void TranslateMode::updateDisplay1(SSD1331& display) {
 
     if (_language1) {
         if (_state == STATE_MUTE) {
+            display.setFont(&SWISS_20);
             display.setBackgroundColor(0, 0, 0x60);                
             display.clear();
         }
@@ -145,6 +146,7 @@ void TranslateMode::updateDisplay1(SSD1331& display) {
 }
 
 void TranslateMode::updateDisplay2(SSD1331& display) {
+    display.setFont(&SWISS_20_B);
     if (_state == STATE_CHANNEL_ERROR) {
         display.setBackgroundColor(255, 0, 0);
         display.clear();
@@ -167,6 +169,7 @@ void TranslateMode::updateDisplay2(SSD1331& display) {
     }
     else {
         display.setBackgroundColor(0x20, 0x00, 0x00);
+        display.setFont(&SWISS_20);
         display.clear();
     }
 

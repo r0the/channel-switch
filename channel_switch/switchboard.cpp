@@ -41,11 +41,9 @@ void Switchboard::setup() {
     // init display 1
     selectDisplay1();
     _display1.begin();
-
     // init display 2
     selectDisplay2();
     _display2.begin();
-
     CONFIG.load();
     setupComm();
     setupMode();
@@ -97,6 +95,9 @@ void Switchboard::setupMode(Mode* mode) {
                 break;
             case MODE_TRANSLATE:
                 mode = new TranslateMode;
+                break;
+            default:
+                mode = new OnAirMode;
                 break;
         }
     }

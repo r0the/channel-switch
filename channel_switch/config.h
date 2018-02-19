@@ -22,8 +22,8 @@
 #include "storage.h"
 
 
-#define TEXT_X 47
-#define TEXT_Y 37
+#define TEXT_X 42
+#define TEXT_Y 23
 
 // ----------------------------------------------------------------------------
 // pin configuration
@@ -83,7 +83,7 @@ void writeHeader();
 // version information
 // ----------------------------------------------------------------------------
 
-static const char* FIRMWARE_VERSION = "Version 1.1";
+static const char* FIRMWARE_VERSION = "Version 1.2";
 
 // ----------------------------------------------------------------------------
 // serial commands

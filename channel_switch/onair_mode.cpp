@@ -43,7 +43,6 @@ static uint8_t determineState(Switchboard& switchboard) {
 }
 
 void OnAirMode::setupDisplay(SSD1331& display) {
-    display.setFontScale(2);
     display.setTextAlign(ALIGN_CENTER);
 }
 
@@ -84,6 +83,7 @@ void OnAirMode::loop(Switchboard& switchboard) {
 }
 
 void OnAirMode::updateDisplay1(SSD1331& display) {
+    display.setFont(&SWISS_20_B);
     if (_state == STATE_COMM_ERROR) {
         display.setBackgroundColor(255, 0, 0);
         display.clear();
@@ -101,11 +101,13 @@ void OnAirMode::updateDisplay1(SSD1331& display) {
     else {
         display.setBackgroundColor(0, 0, 0);
         display.clear();
+        display.setFont(&SWISS_20);
         display.drawText(TEXT_X, TEXT_Y, "OFF AIR");
     }
 }
 
 void OnAirMode::updateDisplay2(SSD1331& display) {
+    display.setFont(&SWISS_20_B);
     if (_state == STATE_COMM_ERROR) {
         display.setBackgroundColor(0xE, 0, 0);
         display.clear();
@@ -122,6 +124,7 @@ void OnAirMode::updateDisplay2(SSD1331& display) {
     else {
         display.setBackgroundColor(0, 0, 0x40);
         display.clear();
+        display.setFont(&SWISS_20);
     }
 
     display.drawText(TEXT_X, TEXT_Y, "REGIE");
