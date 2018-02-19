@@ -36,7 +36,14 @@ void ConfigMode::setupDisplay(SSD1331& display) {
 
 void ConfigMode::loop(Switchboard& switchboard) {
     if (switchboard.button1Down()) {
-        _menuPos = (_menuPos + 1) % (CONFIG_COUNT + 1);
+        if (_menuPos == CONFIG_MODE && CONFIG[CONFIG_MODE].value() == MODE_ON_AIR) {
+            // jump over language configuration if on-air mode is selected
+            _menuPos = CONFIG_COUNT;
+        }
+        else {
+            _menuPos = (_menuPos + 1) % (CONFIG_COUNT + 1);
+        }
+
         switchboard.display1Dirty();
         switchboard.display2Dirty();
     }
