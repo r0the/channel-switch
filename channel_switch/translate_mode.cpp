@@ -128,6 +128,7 @@ void TranslateMode::updateDisplay1(SSD1331& display) {
     }
     else {
         if (_state == STATE_MUTE) {
+            display.setFont(&SWISS_20);
             display.setBackgroundColor(0, 0, 0x60);                
             display.clear();
         }
