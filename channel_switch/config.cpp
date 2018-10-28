@@ -19,10 +19,10 @@
 
 Config CONFIG;
 
-#define LANGUAGE_COUNT 4
+#define LANGUAGE_COUNT 5
 
 const char* MODE_NAMES[MODE_COUNT] = {"On-Air", "Translation"};
-const char* LANGUAGE_NAMES[LANGUAGE_COUNT] = {"DEU", "FRA", "ITA", "ENG"};
+const char* LANGUAGE_NAMES[LANGUAGE_COUNT] = {"DEU", "FRA", "ITA", "ROH", "ENG"};
 
 bool checkHeader() {
     char magic1 = Serial1.read();
