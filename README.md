@@ -2,10 +2,10 @@
 
 ## Voraussetzungen
 
-Die Channel Switch Arduino-Software ist für den Einsatz auf einem [Arduino MKR-1000](https://store.arduino.cc/arduino-mkr1000) vorgesehen. Um das Programm zu kompilieren, ist folgende Umgebung nötig:
+Die Channel Switch Arduino-Software ist für den Einsatz auf einem Adafruit Feather M0 vorgesehen. Um das Programm zu kompilieren, ist folgende Umgebung nötig:
 
 * Arduino IDE 1.8 oder neuer
-* Arduino SAMD Boards (32-bits ARM Cortex-M0+)
+* Adafruit SAMD Boards
 * [MonoGFX-Arduino library](https://github.com/r0the/monogfx-arduino)
 
 ## Gerätekonfiguration
