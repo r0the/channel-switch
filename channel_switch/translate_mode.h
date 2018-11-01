@@ -28,6 +28,7 @@ public:
     virtual void updateDisplay2(SSD1331& display);
 private:
     bool _language1;
+    bool _singleLanguage;
     uint8_t _state;
 };
 

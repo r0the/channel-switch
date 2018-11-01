@@ -23,28 +23,36 @@
 #define STATE_LANGUAGE_2    2
 #define STATE_CHANNEL_ERROR 3
 #define STATE_COMM_ERROR    4
+#define STATE_SINGLE_ERROR  5
 
-static uint8_t determineState(Switchboard& switchboard) {
+static bool determineSingleLanguage() {
+    return CONFIG[CONFIG_LANGUAGE_1].value() == CONFIG[CONFIG_LANGUAGE_2].value();
+}
+
+static uint8_t determineState(const Switchboard& switchboard, bool singleLanguage) {
     if (switchboard.commError()) {
         return STATE_COMM_ERROR;
     }
 
-    if (switchboard.channel1()) {
-        if (switchboard.channel2()) {
-            return STATE_CHANNEL_ERROR;
-        }
-        else {
-            return STATE_LANGUAGE_1;
-        }
+    const bool ch1 = switchboard.channel1();
+    const bool ch2 = switchboard.channel2();
+    if (ch1 && ch2) {
+        return STATE_CHANNEL_ERROR;        
     }
-    else {
-        if (switchboard.channel2()) {
-            return STATE_LANGUAGE_2;
-        }
-        else {
-            return STATE_MUTE;
-        }        
+
+    if (!ch1 && !ch2) {
+        return STATE_MUTE;        
     }
+
+    if (ch1) {
+        return STATE_LANGUAGE_1;        
+    }
+
+    if (singleLanguage) {
+        return STATE_SINGLE_ERROR;
+    }
+
+    return STATE_LANGUAGE_2;
 }
 
 void TranslateMode::setupDisplay(SSD1331& display) {
@@ -54,8 +62,13 @@ void TranslateMode::setupDisplay(SSD1331& display) {
 void TranslateMode::loop(Switchboard& switchboard) {
     bool lastLanguage1 = _language1;
     uint8_t lastState = _state;
-    _state = determineState(switchboard);
+    _singleLanguage = determineSingleLanguage();
+    _state = determineState(switchboard, _singleLanguage);
     switch (_state) {
+        case STATE_SINGLE_ERROR:
+            switchboard.toggleChannel1();
+            switchboard.toggleChannel2();
+            break;
         case STATE_CHANNEL_ERROR:
             switchboard.toggleChannel2();
             break;
@@ -68,7 +81,7 @@ void TranslateMode::loop(Switchboard& switchboard) {
     }
 
     // if button 1 has gone down, change language
-    if (switchboard.button1Down()) {
+    if (!_singleLanguage && switchboard.button1Down()) {
         if (_state == STATE_MUTE) {
             _language1 = !_language1;
         }
