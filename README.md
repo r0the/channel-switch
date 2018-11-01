@@ -98,7 +98,7 @@ Wenn Muta aktiv ist, leuchet das Display weniger hell.
 Auf Display Taste 2 wird MUTE angezeigt.
 Wenn Mute aktiv ist, wird die Farbe intensiver und die Balken ober- und unterhalb angezeigt.
 
-Konfiguration: Auswahl von zwei Sprachen aus: DEU, FRA, ITA, ENG
+Konfiguration: Auswahl von zwei Sprachen aus: DEU, FRA, ITA, ROH, ENG
 
 Ausgänge:
 - (A) Sprache 1: Puls 100ms bei Wahl und Abwahl und Mute ein/aus
